@@ -92,84 +92,90 @@ let currentTheme = 'numbers';
 let currentIndex = 0;
 let isFlipped = false;
 
-// Elemen DOM
-const flashcard = document.getElementById('flashcard');
-const englishWord = document.getElementById('englishWord');
-const indonesiaWord = document.getElementById('indonesiaWord');
-const frontIcon = document.getElementById('frontIcon');
-const backIcon = document.getElementById('backIcon');
-const counterSpan = document.getElementById('counter');
-const prevBtn = document.getElementById('prevBtn');
-const nextBtn = document.getElementById('nextBtn');
-const themeBtns = document.querySelectorAll('.theme-btn');
+// ==================== TUNGGU DOM SIAP ======================
+document.addEventListener('DOMContentLoaded', function() {
+    // Elemen DOM
+    const flashcard = document.getElementById('flashcard');
+    const englishWord = document.getElementById('englishWord');
+    const indonesiaWord = document.getElementById('indonesiaWord');
+    const frontIcon = document.getElementById('frontIcon');
+    const backIcon = document.getElementById('backIcon');
+    const counterSpan = document.getElementById('counter');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const themeBtns = document.querySelectorAll('.theme-btn');
 
-// ==================== FUNGSI ======================
-function updateCard() {
-    const data = vocabulary[currentTheme][currentIndex];
-    englishWord.textContent = data.english;
-    indonesiaWord.textContent = data.indo;
-    frontIcon.className = data.iconFront;
-    backIcon.className = data.iconBack;
-    counterSpan.textContent = `${currentIndex+1} / ${vocabulary[currentTheme].length}`;
+    // Cek apakah elemen ditemukan
+    console.log('Flashcard:', flashcard);
+    console.log('Theme buttons:', themeBtns.length);
 
-    if (isFlipped) {
-        flashcard.classList.remove('flipped');
-        isFlipped = false;
-    }
-    updateNavButtons();
-}
+    // ==================== FUNGSI ======================
+    function updateCard() {
+        const data = vocabulary[currentTheme][currentIndex];
+        englishWord.textContent = data.english;
+        indonesiaWord.textContent = data.indo;
+        frontIcon.className = data.iconFront;
+        backIcon.className = data.iconBack;
+        counterSpan.textContent = `${currentIndex+1} / ${vocabulary[currentTheme].length}`;
 
-function updateNavButtons() {
-    prevBtn.disabled = (currentIndex === 0);
-    nextBtn.disabled = (currentIndex === vocabulary[currentTheme].length - 1);
-}
-
-window.flipCard = function() {
-    flashcard.classList.toggle('flipped');
-    isFlipped = !isFlipped;
-};
-
-window.nextCard = function() {
-    if (currentIndex < vocabulary[currentTheme].length - 1) {
-        currentIndex++;
-        updateCard();
-    }
-};
-
-window.prevCard = function() {
-    if (currentIndex > 0) {
-        currentIndex--;
-        updateCard();
-    }
-};
-
-function switchTheme(theme) {
-    currentTheme = theme;
-    currentIndex = 0;
-    updateCard();
-
-    themeBtns.forEach(btn => {
-        const btnTheme = btn.getAttribute('data-theme');
-        if (btnTheme === theme) {
-            btn.classList.add('active');
-        } else {
-            btn.classList.remove('active');
+        if (isFlipped) {
+            flashcard.classList.remove('flipped');
+            isFlipped = false;
         }
+        updateNavButtons();
+    }
+
+    function updateNavButtons() {
+        prevBtn.disabled = (currentIndex === 0);
+        nextBtn.disabled = (currentIndex === vocabulary[currentTheme].length - 1);
+    }
+
+    window.flipCard = function() {
+        flashcard.classList.toggle('flipped');
+        isFlipped = !isFlipped;
+    };
+
+    window.nextCard = function() {
+        if (currentIndex < vocabulary[currentTheme].length - 1) {
+            currentIndex++;
+            updateCard();
+        }
+    };
+
+    window.prevCard = function() {
+        if (currentIndex > 0) {
+            currentIndex--;
+            updateCard();
+        }
+    };
+
+    function switchTheme(theme) {
+        currentTheme = theme;
+        currentIndex = 0;
+        updateCard();
+
+        themeBtns.forEach(btn => {
+            const btnTheme = btn.getAttribute('data-theme');
+            if (btnTheme === theme) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+    }
+
+    // Event Listener
+    themeBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const theme = e.currentTarget.getAttribute('data-theme');
+            switchTheme(theme);
+        });
     });
-}
 
-// ==================== EVENT LISTENER ======================
-themeBtns.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-        const theme = e.currentTarget.getAttribute('data-theme');
-        switchTheme(theme);
+    document.querySelectorAll('.nav-btn, .theme-btn').forEach(el => {
+        el.addEventListener('click', (e) => e.stopPropagation());
     });
-});
 
-// Mencegah flip saat klik tombol
-document.querySelectorAll('.nav-btn, .theme-btn').forEach(el => {
-    el.addEventListener('click', (e) => e.stopPropagation());
+    // Inisialisasi
+    updateCard();
 });
-
-// Inisialisasi
-updateCard();
