@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📝 Belajar Menulis Inggris | Gambar & Koreksi</title>
-    <!-- Font ramah anak -->
+    <title>🐘 Memori Inggris–Indonesia | 6 Pasangan Per Level</title>
+    <!-- Font ramah anak dan CSS modern -->
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -16,452 +16,626 @@
 
         body {
             min-height: 100vh;
-            background: linear-gradient(145deg, #b5e6c3, #a1d9f7);
+            background: linear-gradient(145deg, #f9e8b4 0%, #f4d793 100%);
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 16px;
         }
 
-        .game-container {
-            max-width: 900px;
+        .game-wrapper {
+            max-width: 1100px;
             width: 100%;
-            background: #fffdf6;
-            border-radius: 60px;
-            box-shadow: 0 25px 35px rgba(0, 0, 0, 0.2), 0 10px 15px rgba(0, 0, 0, 0.1);
-            padding: 30px 25px 40px;
-            border: 6px solid white;
-            text-align: center;
+            background: rgba(255, 250, 235, 0.8);
+            backdrop-filter: blur(4px);
+            border-radius: 48px;
+            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.1), 0 8px 15px rgba(0, 0, 0, 0.2);
+            padding: 25px 25px 35px;
+            border: 4px solid #fff9e6;
         }
 
-        h1 {
-            font-size: 2.8rem;
-            color: #2b5e3b;
-            text-shadow: 3px 3px 0 #ffd966;
-            margin-bottom: 10px;
-            letter-spacing: -1px;
-        }
-
-        .subtitle {
-            font-size: 1.3rem;
-            background: #ffe88c;
-            display: inline-block;
-            padding: 8px 30px;
-            border-radius: 50px;
-            border: 3px solid white;
-            box-shadow: 0 4px 0 #c4a347;
-            margin-bottom: 30px;
-            font-weight: 600;
-        }
-
-        /* area gambar dan info */
-        .card-question {
-            background: #fef7e6;
-            border-radius: 70px;
-            padding: 30px 20px;
-            border: 5px solid white;
-            box-shadow: inset 0 -5px 0 #e5d5b5, 0 15px 20px rgba(0, 0, 0, 0.1);
-            margin-bottom: 30px;
-        }
-
-        .image-area {
-            font-size: 8rem;
-            line-height: 1.2;
-            filter: drop-shadow(8px 8px 0 rgba(0,0,0,0.1));
-            margin-bottom: 5px;
-        }
-
-        .hint-text {
-            font-size: 1.4rem;
-            background: #b0d9ff;
-            padding: 8px 20px;
-            border-radius: 40px;
-            display: inline-block;
-            border: 3px solid white;
-            font-weight: 600;
-            color: #1e4e6f;
-        }
-
-        /* area menulis */
-        .writing-area {
-            background: #fcefdc;
-            border-radius: 80px;
-            padding: 30px 25px;
-            border: 5px solid white;
-            box-shadow: inset 0 -5px 0 #ddcdb2, 0 10px 15px rgba(0, 0, 0, 0.1);
-            margin-bottom: 25px;
-        }
-
-        .instruction {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: #4b3d1e;
-            margin-bottom: 20px;
-        }
-
-        .input-group {
+        /* header ceria */
+        .header {
             display: flex;
             flex-wrap: wrap;
-            justify-content: center;
-            gap: 15px;
             align-items: center;
-        }
-
-        #answer-input {
-            flex: 2 1 250px;
-            padding: 18px 25px;
-            font-size: 1.6rem;
-            border: 4px solid #8fc0a9;
-            border-radius: 60px;
-            outline: none;
-            background: white;
-            text-align: center;
-            font-weight: 600;
-            color: #2f5d3a;
-            transition: 0.2s;
-            box-shadow: 0 4px 0 #58856b;
-        }
-
-        #answer-input:focus {
-            border-color: #f3b33d;
-            box-shadow: 0 4px 0 #b87e1f;
-        }
-
-        .check-btn {
-            flex: 0 1 auto;
-            background: #f3b33d;
-            border: none;
-            padding: 18px 35px;
-            font-size: 1.5rem;
-            font-weight: 700;
-            border-radius: 60px;
-            border: 4px solid white;
-            box-shadow: 0 6px 0 #b87e1f;
-            cursor: pointer;
-            transition: 0.1s linear;
-            color: #2d3e1f;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .check-btn:active {
-            transform: translateY(6px);
-            box-shadow: 0 2px 0 #b87e1f;
-        }
-
-        /* panel feedback */
-        .feedback-panel {
-            background: #ffefb0;
-            border-radius: 50px;
-            padding: 15px 25px;
-            font-size: 1.4rem;
-            border: 4px dashed #e5942e;
-            margin-top: 15px;
-            font-weight: 600;
-            min-height: 85px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
-        .correct-answer-box {
-            background: #98d6a0;
-            padding: 10px 25px;
-            border-radius: 40px;
-            border: 3px solid white;
-            color: #1a4f2b;
-            font-size: 1.6rem;
-            font-weight: 700;
-            display: inline-block;
-        }
-
-        .counter {
-            background: #aad6f0;
-            padding: 8px 30px;
-            border-radius: 50px;
-            font-size: 1.5rem;
-            font-weight: 700;
-            border: 3px solid white;
-            display: inline-block;
-        }
-
-        .next-btn {
-            background: #74c7b8;
-            border: none;
-            padding: 15px 40px;
-            font-size: 1.5rem;
-            font-weight: 700;
-            border-radius: 60px;
-            border: 4px solid white;
-            box-shadow: 0 6px 0 #4b8b7a;
-            cursor: pointer;
-            transition: 0.1s linear;
-            color: #1d4e3d;
-            margin-top: 15px;
-            width: fit-content;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .next-btn:active {
-            transform: translateY(6px);
-            box-shadow: 0 2px 0 #4b8b7a;
-        }
-
-        .stats {
-            display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-top: 20px;
-            flex-wrap: wrap;
-            gap: 10px;
-            background: #feeac2;
+            background: #a2d6f9;
             padding: 15px 25px;
             border-radius: 60px;
-            border: 4px solid white;
+            margin-bottom: 25px;
+            border: 3px solid white;
+            box-shadow: 0 5px 0 #6b9ac0;
         }
 
-        .finish-message {
-            background: #f5b342;
-            padding: 20px;
-            border-radius: 60px;
-            font-size: 2rem;
+        .title-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .title-area h1 {
+            font-size: 1.9rem;
             font-weight: 700;
-            color: #2e471d;
-            border: 5px solid white;
+            color: #1e3c5c;
+            letter-spacing: -0.5px;
+            text-shadow: 2px 2px 0 #ffde94;
         }
 
-        /* responsif */
-        @media (max-width: 600px) {
-            h1 { font-size: 2rem; }
-            .image-area { font-size: 6rem; }
-            #answer-input { font-size: 1.2rem; padding: 15px; }
-            .check-btn { padding: 15px 25px; font-size: 1.2rem; }
+        .level-info {
+            background: #feffcd;
+            padding: 8px 22px;
+            border-radius: 40px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #2c5a7a;
+            border: 3px solid white;
+            box-shadow: 0 4px 0 #b3aa7a;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .level-info span {
+            background: #fbb44b;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 30px;
+            margin-left: 8px;
+            border: 2px solid white;
+        }
+
+        .score-board {
+            background: #feffcd;
+            padding: 8px 22px;
+            border-radius: 40px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2c5a7a;
+            border: 3px solid white;
+            box-shadow: 0 4px 0 #b3aa7a;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .score-board span {
+            font-size: 1.1rem;
+            background: #fbb44b;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 30px;
+            margin-left: 8px;
+            border: 2px solid white;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .new-game-btn, .next-level-btn {
+            border: none;
+            border-radius: 50px;
+            padding: 12px 25px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            border: 3px solid white;
+            cursor: pointer;
+            transition: 0.1s linear;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .new-game-btn {
+            background: #fbb03b;
+            color: #382f15;
+            box-shadow: 0 5px 0 #c57f1f;
+        }
+
+        .next-level-btn {
+            background: #6fcf97;
+            color: #1d5a3e;
+            box-shadow: 0 5px 0 #2e7d5a;
+        }
+
+        .new-game-btn:active, .next-level-btn:active {
+            transform: translateY(5px);
+            box-shadow: 0 2px 0 #c57f1f;
+        }
+
+        .next-level-btn:active {
+            box-shadow: 0 2px 0 #2e7d5a;
+        }
+
+        .next-level-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: 0 5px 0 #2e7d5a;
+        }
+
+        .message-panel {
+            background: #ffeeaa;
+            border-radius: 40px;
+            padding: 10px 25px;
+            margin-bottom: 25px;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #394e2c;
+            text-align: center;
+            border: 3px dashed #f19a3e;
+        }
+
+        /* grid kartu - 6 kartu per baris */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr); /* 6 kolom tetap */
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        /* kartu individual */
+        .card {
+            aspect-ratio: 4 / 5;
+            background: transparent;
+            border: none;
+            perspective: 800px;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+
+        .card:active:not(.matched):not(.preview) {
+            transform: scale(0.96);
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            transform-style: preserve-3d;
+            border-radius: 20px;
+            box-shadow: 0 8px 12px -5px rgba(0, 0, 0, 0.3);
+        }
+
+        /* kondisi terbuka atau cocok */
+        .card.flipped .card-inner,
+        .card.matched .card-inner,
+        .card.preview .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card.matched {
+            cursor: default;
+            filter: drop-shadow(0 0 8px #ffb882);
+        }
+        
+        .card.preview {
+            cursor: default;
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px;
+            border: 3px solid white;
+            box-shadow: inset 0 -4px 0 rgba(0,0,0,0.1);
+            font-weight: 700;
+            word-break: break-word;
+        }
+
+        /* sisi belakang (tertutup) */
+        .card-back {
+            background: repeating-radial-gradient(circle at 20% 30%, #ffc96e, #ffab3b 15px);
+            background-color: #f58231;
+            transform: rotateY(0deg);
+            font-size: 2.2rem;
+            color: white;
+            text-shadow: 3px 3px 0 #bb571b;
+        }
+
+        /* sisi depan (terbuka) */
+        .card-front {
+            background: #e3f0ff;
+            background: linear-gradient(145deg, #fffae3, #f5e7c8);
+            transform: rotateY(180deg);
+            font-size: 1.1rem;
+            color: #2c3e4e;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .card-front small {
+            font-size: 0.75rem;
+            background: #2ecc71;
+            padding: 3px 6px;
+            border-radius: 30px;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .en-word {
+            font-weight: 700;
+            color: #1f618d;
+            font-size: 1rem;
+        }
+
+        .id-word {
+            font-weight: 600;
+            color: #b3412b;
+            font-size: 1rem;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #5f4b32;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        /* responsive untuk layar kecil */
+        @media (max-width: 800px) {
+            .card-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            .header {
+                flex-direction: column;
+                gap: 12px;
+            }
+            .button-group {
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 500px) {
+            .card-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
         }
     </style>
 </head>
 <body>
-<div class="game-container">
-    <h1>🐼🔤 BELAJAR MENULIS</h1>
-    <div class="subtitle">Inggris · Gambar & Tulisan</div>
-
-    <!-- Kartu Soal (Gambar + Petunjuk) -->
-    <div class="card-question">
-        <div class="image-area" id="image-emoji">🐱</div>
-        <div class="hint-text" id="hint-text">Ini adalah ...</div>
-    </div>
-
-    <!-- Area Menulis -->
-    <div class="writing-area">
-        <div class="instruction">✏️ Tulis nama hewan/benda dalam bahasa Inggris:</div>
-        <div class="input-group">
-            <input type="text" id="answer-input" placeholder="contoh: cat" autocomplete="off">
-            <button class="check-btn" id="check-answer">✅ Cek</button>
+<div class="game-wrapper">
+    <div class="header">
+        <div class="title-area">
+            <h1>🐘🐞 MEMORI KARTU</h1>
+            <div class="level-info">
+                📚 Level <span id="level-number">1</span>/3
+            </div>
+            <div class="score-board">
+                🏆 <span id="pairs-found">0</span>/6
+            </div>
         </div>
-
-        <!-- Panel Feedback (tampil setelah jawab) -->
-        <div class="feedback-panel" id="feedback-panel">
-            <span id="feedback-message">✨ Tulis jawabanmu, lalu klik Cek!</span>
+        <div class="button-group">
+            <button class="next-level-btn" id="next-level">⏩ Next 6 Pasangan</button>
+            <button class="new-game-btn" id="reset-game">🔄 Mulai Awal</button>
         </div>
     </div>
 
-    <!-- Tombol Next dan Statistik -->
-    <div class="stats">
-        <div class="counter" id="progress">1 / 12</div>
-        <button class="next-btn" id="next-question">⏩ Soal Selanjutnya</button>
+    <div class="message-panel" id="game-message">
+        🔍 Perhatikan! Kartu akan ditutup dalam 5 detik...
     </div>
-    <div style="margin-top: 15px;" id="completion-message"></div>
+
+    <!-- grid kartu akan diisi javascript -->
+    <div id="memory-grid" class="card-grid"></div>
+    <div class="footer">
+        🐣 Untuk adik SD · Inggris ↔ Indonesia · 6 pasangan per level
+    </div>
 </div>
 
 <script>
     (function() {
-        // ===== DATA SOAL (GAMBAR + KATA INGGRIS + HINT) =====
-        const questions = [
-            { emoji: '🐱', hint: 'Hewan peliharaan yang suka mengeong', en: 'cat' },
-            { emoji: '🐶', hint: 'Hewan yang suka menggonggong', en: 'dog' },
-            { emoji: '🐮', hint: 'Hewan yang menghasilkan susu', en: 'cow' },
-            { emoji: '🐘', hint: 'Hewan besar berbelalai', en: 'elephant' },
-            { emoji: '🦁', hint: 'Raja hutan', en: 'lion' },
-            { emoji: '🐒', hint: 'Hewan yang suka memanjat dan makan pisang', en: 'monkey' },
-            { emoji: '🐔', hint: 'Hewan yang berkokok di pagi hari', en: 'chicken' },
-            { emoji: '🐧', hint: 'Burung yang tidak bisa terbang, tinggal di dingin', en: 'penguin' },
-            { emoji: '🍎', hint: 'Buah merah yang manis', en: 'apple' },
-            { emoji: '🍌', hint: 'Buah kuning panjang', en: 'banana' },
-            { emoji: '🍓', hint: 'Buah kecil merah dengan biji di luar', en: 'strawberry' },
-            { emoji: '🚗', hint: 'Kendaraan roda empat', en: 'car' }
+        // 18 pasangan kosakata (Inggris - Indonesia) diurutkan
+        const ALL_PAIRS = [
+            { en: 'Cat', id: 'Kucing' },
+            { en: 'Dog', id: 'Anjing' },
+            { en: 'Book', id: 'Buku' },
+            { en: 'Pencil', id: 'Pensil' },
+            { en: 'House', id: 'Rumah' },
+            { en: 'Car', id: 'Mobil' },
+            { en: 'Apple', id: 'Apel' },
+            { en: 'Bird', id: 'Burung' },
+            { en: 'Sun', id: 'Matahari' },
+            { en: 'Moon', id: 'Bulan' },
+            { en: 'Chair', id: 'Kursi' },
+            { en: 'Table', id: 'Meja' },
+            { en: 'Fish', id: 'Ikan' },
+            { en: 'Tree', id: 'Pohon' },
+            { en: 'Flower', id: 'Bunga' },
+            { en: 'Ball', id: 'Bola' },
+            { en: 'Shoes', id: 'Sepatu' },
+            { en: 'Hat', id: 'Topi' }
         ];
 
-        // State global
-        let currentIndex = 0;                 // index soal yang sedang dikerjakan (0-11)
-        let currentAnswered = false;           // apakah soal ini sudah pernah dijawab (untuk cegah next sebelum cek)
-        let currentCorrect = false;            // apakah soal ini sudah dijawab dengan benar
-        let completedCount = 0;                // jumlah soal yang sudah benar (untuk progress)
-        let userAnswer = '';                    // untuk menyimpan input
+        const PAIRS_PER_LEVEL = 6; // 6 pasangan per level = 12 kartu
+        const TOTAL_LEVELS = Math.ceil(ALL_PAIRS.length / PAIRS_PER_LEVEL); // 3 level
+
+        let currentLevel = 1;                // level saat ini (1, 2, 3)
+        let currentPairs = [];                // pasangan untuk level ini
+        let cards = [];                       // array kartu
+        let flippedCardsIndex = [];            // index kartu yang terbuka
+        let lockBoard = false;                 // cegah klik saat animasi
+        let pairsMatched = 0;
+        let timeoutHandle = null;
         
+        // Variabel untuk preview
+        let gameStarted = false;
+        let previewTimeout = null;
+        let countdownInterval = null;
+        let previewCountdown = 5;
+
         // Elemen DOM
-        const imageEl = document.getElementById('image-emoji');
-        const hintEl = document.getElementById('hint-text');
-        const answerInput = document.getElementById('answer-input');
-        const checkBtn = document.getElementById('check-answer');
-        const nextBtn = document.getElementById('next-question');
-        const feedbackPanel = document.getElementById('feedback-panel');
-        const feedbackMessage = document.getElementById('feedback-message');
-        const progressEl = document.getElementById('progress');
-        const completionMsg = document.getElementById('completion-message');
+        const gridEl = document.getElementById('memory-grid');
+        const pairsSpan = document.getElementById('pairs-found');
+        const levelSpan = document.getElementById('level-number');
+        const messageEl = document.getElementById('game-message');
+        const resetBtn = document.getElementById('reset-game');
+        const nextLevelBtn = document.getElementById('next-level');
 
-        // ===== FUNGSI UPDATE TAMPILAN SOAL =====
-        function loadQuestion() {
-            const q = questions[currentIndex];
-            imageEl.innerText = q.emoji;
-            hintEl.innerText = 'Petunjuk: ' + q.hint;
-            
-            // Reset input dan feedback
-            answerInput.value = '';
-            answerInput.disabled = false;
-            answerInput.focus();
-            
-            // Reset status jawaban untuk soal ini (tapi jangan timpa currentCorrect? Kita set ulang agar bisa mencoba lagi)
-            // Namun kita perlu tahu apakah soal ini sudah pernah dijawab benar? Gunakan array terpisah.
-            // Kita simpan di array `correctStatus` per index.
-            if (typeof window.correctStatus === 'undefined') {
-                window.correctStatus = new Array(questions.length).fill(false);
+        // === Helper Functions ===
+        function shuffleArray(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
             }
-            
-            // Jika soal ini sudah benar sebelumnya, tampilkan khusus
-            if (window.correctStatus[currentIndex]) {
-                // Soal sudah benar, tampilkan pesan, disable input?
-                answerInput.disabled = true;
-                answerInput.value = questions[currentIndex].en;
-                feedbackPanel.innerHTML = `<span>✅ Kamu sudah menjawab benar! Silakan lanjut ke soal berikutnya.</span>`;
-                currentCorrect = true;
-                currentAnswered = true; // anggap sudah dijawab benar
+            return arr;
+        }
+
+        // Ambil pasangan untuk level tertentu
+        function getPairsForLevel(level) {
+            const startIdx = (level - 1) * PAIRS_PER_LEVEL;
+            const endIdx = Math.min(startIdx + PAIRS_PER_LEVEL, ALL_PAIRS.length);
+            return ALL_PAIRS.slice(startIdx, endIdx);
+        }
+
+        // Update tombol Next Level
+        function updateNextLevelButton() {
+            if (currentLevel >= TOTAL_LEVELS) {
+                nextLevelBtn.disabled = true;
+                nextLevelBtn.style.opacity = '0.5';
+                nextLevelBtn.title = 'Tidak ada level berikutnya';
             } else {
-                // Soal belum benar, normal
-                answerInput.disabled = false;
-                feedbackPanel.innerHTML = `<span id="feedback-message">✨ Tulis jawabanmu, lalu klik Cek!</span>`;
-                currentCorrect = false;
-                currentAnswered = false;
-            }
-            
-            // Update progress display
-            updateProgress();
-        }
-
-        // Hitung berapa yang sudah benar
-        function countCompleted() {
-            return window.correctStatus.filter(val => val === true).length;
-        }
-
-        function updateProgress() {
-            const completed = countCompleted();
-            progressEl.innerText = `${completed} / ${questions.length}`;
-            
-            if (completed === questions.length) {
-                completionMsg.innerHTML = '<div class="finish-message">🎉 SELAMAT! Kamu menyelesaikan semua soal! 🎉</div>';
-                nextBtn.disabled = true;
-            } else {
-                completionMsg.innerHTML = '';
-                nextBtn.disabled = false;
+                nextLevelBtn.disabled = false;
+                nextLevelBtn.style.opacity = '1';
+                nextLevelBtn.title = 'Level selanjutnya';
             }
         }
 
-        // ===== CEK JAWABAN =====
-        function checkAnswer() {
-            const q = questions[currentIndex];
-            const userAnswerRaw = answerInput.value.trim().toLowerCase();
-            
-            // Jika soal sudah benar sebelumnya, langsung kasih tahu
-            if (window.correctStatus[currentIndex]) {
-                feedbackPanel.innerHTML = `<span>✅ Sudah benar sebelumnya! Lanjut ke soal berikutnya.</span>`;
-                return;
+        // Inisialisasi data cards untuk level ini
+        function buildCardsData() {
+            let newCards = [];
+            for (let pairIdx = 0; pairIdx < currentPairs.length; pairIdx++) {
+                // kartu Inggris
+                newCards.push({
+                    id: `c-${pairIdx}-en-${Date.now() + Math.random()}`,
+                    pairId: pairIdx,
+                    type: 'en',
+                    text: currentPairs[pairIdx].en,
+                    matched: false,
+                });
+                // kartu Indonesia
+                newCards.push({
+                    id: `c-${pairIdx}-id-${Date.now() + Math.random()}`,
+                    pairId: pairIdx,
+                    type: 'id',
+                    text: currentPairs[pairIdx].id,
+                    matched: false,
+                });
             }
-            
-            // Jika jawaban kosong
-            if (userAnswerRaw === '') {
-                feedbackPanel.innerHTML = `<span>⚠️ Tulis jawaban dulu ya!</span>`;
-                return;
-            }
-            
-            // Bandingkan dengan kunci jawaban
-            if (userAnswerRaw === q.en) {
-                // JAWABAN BENAR
-                window.correctStatus[currentIndex] = true;
-                currentCorrect = true;
-                currentAnswered = true;
-                answerInput.disabled = true; // kunci input
-                
-                // Tampilkan feedback sukses
-                feedbackPanel.innerHTML = `
-                    <span style="color: #1d7845;">✅ Benar sekali! </span>
-                    <span class="correct-answer-box">${q.en}</span>
-                `;
-                
-                updateProgress();
-            } else {
-                // JAWABAN SALAH: tampilkan jawaban benar, tapi anak harus menulis ulang di soal yang sama
-                feedbackPanel.innerHTML = `
-                    <span style="color: #b3412b;">❌ Masih salah. Jawaban yang benar: </span>
-                    <span class="correct-answer-box">${q.en}</span>
-                    <br>
-                    <span style="font-size: 1rem; margin-top: 5px;">✏️ Coba tulis ulang di atas!</span>
-                `;
-                // input tetap aktif, tidak direset (biar anak bisa perbaiki)
-                answerInput.focus();
-                // status correct tetap false, soal belum selesai
-            }
+            return shuffleArray(newCards);
         }
 
-        // ===== NEXT SOAL =====
-        function goToNext() {
-            // Kalau semua sudah selesai, next tidak jalan
-            if (countCompleted() === questions.length) {
-                return;
+        // Render board
+        function renderBoard() {
+            let html = '';
+            for (let i = 0; i < cards.length; i++) {
+                const card = cards[i];
+                let additionalClass = '';
+                if (card.matched) {
+                    additionalClass = 'matched';
+                }
+
+                html += `<div class="card ${additionalClass}" data-index="${i}" id="card-${i}">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            ${card.type === 'en' ? 
+                                '<span class="en-word">' + card.text + '</span><small>🇬🇧</small>' : 
+                                '<span class="id-word">' + card.text + '</span><small>🇮🇩</small>'
+                            }
+                        </div>
+                        <div class="card-back">
+                            🐘
+                        </div>
+                    </div>
+                </div>`;
             }
-            
-            // Cari soal berikutnya yang BELUM benar (sistem mengulang sampai ketemu yang belum selesai)
-            let nextIndex = currentIndex;
-            let found = false;
-            for (let i = 0; i < questions.length; i++) {
-                nextIndex = (nextIndex + 1) % questions.length;
-                if (!window.correctStatus[nextIndex]) {
-                    found = true;
-                    break;
+            gridEl.innerHTML = html;
+
+            document.querySelectorAll('.card').forEach(cardDiv => {
+                cardDiv.addEventListener('click', cardClickHandler);
+            });
+        }
+
+        // Refresh tampilan kartu
+        function refreshCardsView() {
+            for (let i = 0; i < cards.length; i++) {
+                const cardDiv = document.getElementById(`card-${i}`);
+                if (!cardDiv) continue;
+                const card = cards[i];
+
+                cardDiv.classList.remove('flipped', 'matched');
+
+                if (card.matched) {
+                    cardDiv.classList.add('matched');
+                } else {
+                    if (flippedCardsIndex.includes(i)) {
+                        cardDiv.classList.add('flipped');
+                    }
                 }
             }
+        }
+
+        // Preview 5 detik
+        function startPreview() {
+            gameStarted = false;
+            previewCountdown = 5;
             
-            if (found) {
-                currentIndex = nextIndex;
-                loadQuestion();
+            document.querySelectorAll('.card').forEach(card => {
+                card.classList.add('preview');
+            });
+            
+            messageEl.innerText = `🔍 Perhatikan! Kartu akan ditutup dalam ${previewCountdown} detik...`;
+            
+            countdownInterval = setInterval(() => {
+                previewCountdown--;
+                if (previewCountdown > 0) {
+                    messageEl.innerText = `🔍 Perhatikan! Kartu akan ditutup dalam ${previewCountdown} detik...`;
+                }
+            }, 1000);
+            
+            previewTimeout = setTimeout(() => {
+                clearInterval(countdownInterval);
+                
+                document.querySelectorAll('.card').forEach(card => {
+                    card.classList.remove('preview');
+                });
+                
+                gameStarted = true;
+                lockBoard = false;
+                messageEl.innerText = '✨ Ayo buka dua kartu yang cocok!';
+                
+            }, 5000);
+        }
+
+        // Cek kecocokan
+        function checkMatch() {
+            if (flippedCardsIndex.length !== 2) return;
+
+            const idx1 = flippedCardsIndex[0];
+            const idx2 = flippedCardsIndex[1];
+            const card1 = cards[idx1];
+            const card2 = cards[idx2];
+
+            const isMatch = (card1.pairId === card2.pairId) && (card1.type !== card2.type);
+
+            if (isMatch) {
+                card1.matched = true;
+                card2.matched = true;
+                pairsMatched++;
+                pairsSpan.innerText = pairsMatched;
+
+                flippedCardsIndex = [];
+                refreshCardsView();
+
+                if (pairsMatched === currentPairs.length) {
+                    messageEl.innerText = '🎉 SELAMAT! Level selesai! 🎉';
+                    if (currentLevel < TOTAL_LEVELS) {
+                        messageEl.innerText += ' Klik Next untuk level berikutnya.';
+                    } else {
+                        messageEl.innerText += ' Kamu menyelesaikan semua level!';
+                    }
+                } else {
+                    messageEl.innerText = '✔️ Pasangan cocok! Lanjutkan!';
+                }
+
+                lockBoard = false;
             } else {
-                // Semua sudah benar
-                loadQuestion(); // tetap load yang sama tapi nanti di loadQuestion akan disable karena correctStatus true
+                messageEl.innerText = '❌ Coba lagi! tidak cocok.';
+                lockBoard = true;
+
+                if (timeoutHandle) clearTimeout(timeoutHandle);
+                timeoutHandle = setTimeout(() => {
+                    flippedCardsIndex = [];
+                    refreshCardsView();
+                    lockBoard = false;
+                    messageEl.innerText = '✨ Ayo buka dua kartu yang cocok!';
+                    timeoutHandle = null;
+                }, 800);
             }
         }
 
-        // ===== INITIAL & EVENT LISTENER =====
-        window.correctStatus = new Array(questions.length).fill(false);
-        
-        // Load soal pertama
-        loadQuestion();
-        
-        // Event listener cek jawaban
-        checkBtn.addEventListener('click', checkAnswer);
-        
-        // Event listener input: jika user tekan Enter, cek jawaban
-        answerInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                checkAnswer();
+        // Handler klik kartu
+        function cardClickHandler(e) {
+            if (!gameStarted) {
+                messageEl.innerText = '⏳ Tunggu sampai preview selesai!';
+                return;
+            }
+            
+            const cardDiv = e.currentTarget;
+            const index = parseInt(cardDiv.dataset.index, 10);
+
+            if (lockBoard) return;
+
+            const card = cards[index];
+            if (card.matched) return;
+            if (flippedCardsIndex.includes(index)) return;
+            if (flippedCardsIndex.length >= 2) return;
+
+            flippedCardsIndex.push(index);
+            refreshCardsView();
+
+            if (flippedCardsIndex.length === 2) {
+                checkMatch();
+            } else {
+                messageEl.innerText = '😊 Buka satu kartu lagi!';
+            }
+        }
+
+        // Reset untuk level tertentu
+        function resetForLevel(level) {
+            // Bersihkan timeout
+            if (timeoutHandle) clearTimeout(timeoutHandle);
+            if (previewTimeout) clearTimeout(previewTimeout);
+            if (countdownInterval) clearInterval(countdownInterval);
+            
+            currentLevel = level;
+            currentPairs = getPairsForLevel(currentLevel);
+            
+            cards = buildCardsData();
+            flippedCardsIndex = [];
+            pairsMatched = 0;
+            lockBoard = true;
+            gameStarted = false;
+            
+            // Update UI
+            pairsSpan.innerText = '0';
+            levelSpan.innerText = currentLevel;
+            messageEl.innerText = `🔍 Perhatikan! Kartu akan ditutup dalam 5 detik... (Level ${currentLevel}/${TOTAL_LEVELS})`;
+            
+            // Update tombol next
+            updateNextLevelButton();
+            
+            // Render dan preview
+            renderBoard();
+            startPreview();
+        }
+
+        // Event Handlers
+        resetBtn.addEventListener('click', () => {
+            resetForLevel(1); // Mulai dari level 1
+        });
+
+        nextLevelBtn.addEventListener('click', () => {
+            if (currentLevel < TOTAL_LEVELS) {
+                resetForLevel(currentLevel + 1);
             }
         });
-        
-        // Event listener next button
-        nextBtn.addEventListener('click', goToNext);
-        
-        // Tambahan: jika user sudah selesai semua, next didisable
+
+        // Inisialisasi pertama
+        resetForLevel(1);
     })();
 </script>
 </body>
