@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latihan Soal | Anak SD</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+<div class="game-container">
+    <div class="header-with-back">
+        <a href="index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Kembali</a>
+        <h1>✏️ LATIHAN SOAL</h1>
+    </div>
+
+    <!-- Pilih tema untuk latihan -->
+    <div style="text-align: center; margin: 20px 0 30px;">
+        <label for="quizThemeSelect" style="font-size: 1.3rem; margin-right: 15px;">Pilih tema:</label>
+        <select id="quizThemeSelect" style="font-size: 1.2rem; padding: 8px 15px; border-radius: 30px; border: 3px solid #f4a261;">
+            <option value="numbers">Angka</option>
+            <option value="colors">Warna</option>
+            <option value="animals">Hewan</option>
+            <option value="school">Sekolah</option>
+            <option value="family">Keluarga</option>
+        </select>
+        <button onclick="startQuiz()" style="background: #fea82f; border: none; padding: 10px 25px; border-radius: 40px; font-size: 1.3rem; margin-left: 15px; cursor: pointer; box-shadow: 0 5px 0 #b45f1b; color: white; font-weight: bold;">Mulai</button>
+    </div>
+
+    <!-- Area soal -->
+    <div id="quizArea" style="background: #fff2d7; border-radius: 50px; padding: 30px; border: 5px solid #ffb882; max-width: 600px; margin: 0 auto;">
+        <div id="quizQuestion" style="font-size: 2.5rem; font-weight: bold; color: #553b1f; margin-bottom: 20px; text-align: center;">?</div>
+        
+        <div id="quizOptions" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 30px 0;">
+            <!-- Pilihan jawaban akan diisi JS -->
+        </div>
+
+        <div id="quizFeedback" style="font-size: 1.5rem; margin: 15px 0; min-height: 50px; text-align: center;"></div>
+        
+        <div style="text-align: center;">
+            <button id="nextQuizBtn" onclick="nextQuizQuestion()" style="background: #5fa777; color: white; font-size: 1.5rem; padding: 12px 35px; border: none; border-radius: 50px; cursor: pointer; box-shadow: 0 5px 0 #2d5a3a; display: none;">Soal Selanjutnya</button>
+        </div>
+        
+        <div style="margin-top: 20px; font-size: 1.3rem; text-align: center;">
+            Skor: <span id="quizScore">0</span> / <span id="quizTotal">0</span>
+        </div>
+    </div>
+
+    <div class="footer-hint" style="margin-top: 30px;">
+        <i class="fa-regular fa-hand-point-up"></i> Pilih jawaban yang benar!
+    </div>
+</div>
+
+<script src="quiz.js"></script>
+</body>
+</html>

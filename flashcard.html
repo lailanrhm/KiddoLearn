@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcard Inggris | Anak SD</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+<div class="game-container">
+    <div class="header-with-back">
+        <a href="index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Kembali</a>
+        <h1>📚 FLASHCARD</h1>
+    </div>
+
+    <!-- Pilih tema -->
+    <div class="theme-selector" id="themeSelector">
+        <button class="theme-btn active" data-theme="numbers"><i class="fa-solid fa-calculator"></i> Angka</button>
+        <button class="theme-btn" data-theme="colors"><i class="fa-solid fa-palette"></i> Warna</button>
+        <button class="theme-btn" data-theme="animals"><i class="fa-solid fa-cat"></i> Hewan</button>
+        <button class="theme-btn" data-theme="school"><i class="fa-solid fa-book"></i> Sekolah</button>
+        <button class="theme-btn" data-theme="family"><i class="fa-solid fa-user-tie"></i> Keluarga</button>
+    </div>
+
+    <!-- Kartu utama -->
+    <div class="flashcard-wrapper">
+        <div class="flashcard" id="flashcard" onclick="flipCard()">
+            <div class="card-front" id="cardFront">
+                <i id="frontIcon" class="fa-solid fa-crow"></i>
+                <span class="english-word" id="englishWord">One</span>
+                <div class="artikel"><i class="fa-regular fa-hand-point-right"></i> inggris</div>
+            </div>
+            <div class="card-back" id="cardBack">
+                <i id="backIcon" class="fa-solid fa-crow"></i>
+                <span class="indonesia-word" id="indonesiaWord">Satu</span>
+                <div class="artikel" style="background: #c7f0b8; border-color: #3e7a4d;"><i class="fa-regular fa-hand-point-left"></i> indonesia</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- navigasi dan counter -->
+    <div class="nav-controls">
+        <button class="nav-btn" id="prevBtn" onclick="prevCard()"><i class="fa-solid fa-arrow-left"></i></button>
+        <span class="counter" id="counter">1 / 5</span>
+        <button class="nav-btn" id="nextBtn" onclick="nextCard()"><i class="fa-solid fa-arrow-right"></i></button>
+    </div>
+
+    <div class="footer-hint">
+        <i class="fa-regular fa-circle-click"></i> Klik kartu untuk membalik
+    </div>
+</div>
+
+<script src="flashcard.js"></script>
+</body>
+</html>

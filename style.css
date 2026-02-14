@@ -1,0 +1,362 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Comic Neue', 'Segoe UI', 'Arial', sans-serif;
+}
+
+body {
+    background: linear-gradient(145deg, #f9e9d2 0%, #fce2c1 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* Landing Page */
+.landing-container {
+    max-width: 900px;
+    width: 100%;
+    background: #fff6e9;
+    border-radius: 60px;
+    box-shadow: 0 25px 35px rgba(0, 0, 0, 0.2);
+    padding: 50px 30px;
+    border: 5px solid #ffb347;
+    text-align: center;
+}
+
+.landing-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: #2d4059;
+    text-shadow: 4px 4px 0 #fbd26a;
+    margin-bottom: 15px;
+}
+
+.landing-subtitle {
+    font-size: 1.5rem;
+    color: #4a3f35;
+    background: #ffdd99;
+    display: inline-block;
+    padding: 10px 30px;
+    border-radius: 50px;
+    border: 3px solid #cc9c5b;
+    margin-bottom: 40px;
+}
+
+.menu-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin: 40px 0;
+}
+
+.menu-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    background: #fee3b8;
+    border: 5px solid #f4a261;
+    color: #5e3a1c;
+    padding: 40px 30px;
+    border-radius: 50px;
+    width: 280px;
+    transition: 0.3s;
+    box-shadow: 0 10px 0 #bb7a3a;
+}
+
+.menu-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 0 #bb7a3a;
+}
+
+.menu-btn i {
+    font-size: 5rem;
+    margin-bottom: 15px;
+}
+
+.menu-btn span {
+    font-size: 2.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.menu-btn small {
+    font-size: 1.1rem;
+    color: #7b5a3a;
+}
+
+.flashcard-btn i { color: #e76f51; }
+.quiz-btn i { color: #2a9d8f; }
+
+/* Game Container (untuk flashcard & quiz) */
+.game-container {
+    max-width: 1000px;
+    width: 100%;
+    background: #fff6e9;
+    border-radius: 60px 60px 40px 40px;
+    box-shadow: 0 25px 35px rgba(0, 0, 0, 0.2), inset 0 0 0 2px #fceed1;
+    padding: 30px 20px 40px 20px;
+    border: 5px solid #ffb347;
+}
+
+.header-with-back {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.back-btn {
+    background: #fea82f;
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 40px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    box-shadow: 0 5px 0 #b45f1b;
+    position: absolute;
+    left: 20px;
+}
+
+.back-btn i {
+    margin-right: 5px;
+}
+
+.header-with-back h1 {
+    flex: 1;
+    text-align: center;
+    font-size: 2.5rem;
+    color: #2d4059;
+    text-shadow: 3px 3px 0 #fbd26a;
+}
+
+/* Theme selector */
+.theme-selector {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px 8px;
+    margin: 20px 0 30px;
+    padding: 0 10px;
+}
+
+.theme-btn {
+    background: #fee3b8;
+    border: 4px solid #f4a261;
+    color: #5e3a1c;
+    font-size: 1.4rem;
+    font-weight: bold;
+    padding: 12px 22px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: 0.2s;
+    box-shadow: 0 7px 0 #bb7a3a;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.theme-btn i {
+    font-size: 1.5rem;
+    color: #e76f51;
+}
+
+.theme-btn.active {
+    background: #ffd966;
+    transform: translateY(3px);
+    box-shadow: 0 4px 0 #bb7a3a;
+    border-color: #e67e22;
+}
+
+.theme-btn:hover {
+    background: #ffcd94;
+}
+
+/* Flashcard */
+.flashcard-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 2000px;
+    margin: 20px 0 30px;
+}
+
+.flashcard {
+    width: 380px;
+    height: 380px;
+    position: relative;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    transition: transform 0.5s ease-in-out;
+    box-shadow: 0 25px 35px rgba(0, 0, 0, 0.3);
+    border-radius: 50px;
+}
+
+.flashcard.flipped {
+    transform: rotateY(180deg);
+}
+
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 25px;
+    background: #fffcf0;
+    border: 8px solid #ffb882;
+    box-shadow: inset 0 -5px 0 #e09d68;
+}
+
+.card-front {
+    background: #fff2d7;
+    background-image: radial-gradient(circle at 30% 30%, #ffeac5 2px, transparent 2px), 
+                      radial-gradient(circle at 70% 80%, #ffdbb5 3px, transparent 3px);
+    background-size: 40px 40px;
+}
+
+.card-back {
+    background: #b5e6c3;
+    background-image: linear-gradient(45deg, #a2d8b1 10%, transparent 10%);
+    background-size: 30px 30px;
+    transform: rotateY(180deg);
+    border-color: #5fa777;
+}
+
+.card-front i, .card-back i {
+    font-size: 5.5rem;
+    margin-bottom: 10px;
+    color: #cc7f4a;
+    text-shadow: 3px 3px 0 #ffc489;
+}
+
+.card-back i {
+    color: #1f7042;
+    text-shadow: 3px 3px 0 #a2e0b5;
+}
+
+.english-word {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: #553b1f;
+    text-transform: capitalize;
+    text-shadow: 3px 3px 0 #f7c46e;
+    letter-spacing: 2px;
+    margin: 5px 0;
+}
+
+.indonesia-word {
+    font-size: 3.2rem;
+    font-weight: 800;
+    color: #1a472a;
+    text-shadow: 3px 3px 0 #b0e5c6;
+    text-transform: capitalize;
+}
+
+.artikel {
+    font-size: 1.2rem;
+    background: #fce2b1;
+    padding: 8px 20px;
+    border-radius: 30px;
+    font-weight: 600;
+    color: #704d25;
+    margin-top: 15px;
+    border: 2px solid #dc9e5d;
+}
+
+/* Navigasi */
+.nav-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 35px;
+    margin: 20px 0 5px;
+}
+
+.nav-btn {
+    background: #fea82f;
+    border: none;
+    font-size: 2.8rem;
+    width: 80px;
+    height: 80px;
+    border-radius: 60px;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 9px 0 #b45f1b;
+    transition: 0.08s linear;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid #ffdc97;
+}
+
+.nav-btn:active {
+    transform: translateY(7px);
+    box-shadow: 0 2px 0 #b45f1b;
+}
+
+.nav-btn:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+    transform: none;
+    box-shadow: 0 5px 0 #7a4313;
+}
+
+.counter {
+    font-size: 2rem;
+    background: #fceaca;
+    padding: 15px 35px;
+    border-radius: 50px;
+    font-weight: bold;
+    color: #482e14;
+    border: 3px solid #b98a5c;
+}
+
+.footer-hint {
+    font-size: 1.3rem;
+    background: #e6d5b8;
+    padding: 10px 20px;
+    border-radius: 30px;
+    color: #3f2c16;
+    border: 2px dashed #aa7c54;
+    margin-top: 30px;
+    text-align: center;
+}
+
+@media (max-width: 550px) {
+    .flashcard {
+        width: 300px;
+        height: 300px;
+    }
+    .english-word {
+        font-size: 2.5rem;
+    }
+    .indonesia-word {
+        font-size: 2.3rem;
+    }
+    .theme-btn {
+        font-size: 1.2rem;
+        padding: 8px 15px;
+    }
+    .menu-btn {
+        width: 220px;
+        padding: 25px 20px;
+    }
+    .menu-btn i {
+        font-size: 3.5rem;
+    }
+    .menu-btn span {
+        font-size: 1.8rem;
+    }
+}
