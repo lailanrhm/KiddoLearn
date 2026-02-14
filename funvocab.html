@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✨ FunVocab – Inggris Indonesia playful ✨</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Comic Neue', 'Segoe UI', cursive, system-ui, sans-serif;
+        }
+        body {
+            background: linear-gradient(145deg, #f9f0c1 0%, #fce2b6 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            padding: 1.5rem 1rem 3rem;
+        }
+        .app-wrapper {
+            max-width: 700px;
+            width: 100%;
+        }
+
+        /* header ceria */
+        .header-fun {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .header-fun h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #3b2b1f;
+            text-shadow: 5px 5px 0 #ffb347, 8px 8px 0 rgba(255, 230, 150, 0.5);
+            letter-spacing: -1px;
+            line-height: 1.1;
+            word-break: break-word;
+        }
+        .header-fun p {
+            font-size: 1.4rem;
+            background: #fff5d6;
+            display: inline-block;
+            padding: 0.4rem 1.8rem;
+            border-radius: 60px;
+            border: 3px solid #feac6d;
+            color: #5a3e2b;
+            box-shadow: 0 8px 0 #b45f2b;
+            margin-top: 0.5rem;
+            font-weight: 600;
+        }
+
+        /* category chips */
+        .kategori-scroll {
+            display: flex;
+            gap: 0.7rem;
+            overflow-x: auto;
+            padding: 0.8rem 0.2rem 1.5rem 0.2rem;
+            scrollbar-width: thin;
+            scrollbar-color: #fcaa5e #ffeac2;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+        .kategori-scroll::-webkit-scrollbar {
+            height: 10px;
+        }
+        .kategori-scroll::-webkit-scrollbar-thumb {
+            background: #fcaa5e;
+            border-radius: 20px;
+            border: 2px solid #ffd89a;
+        }
+        .chip {
+            background: #feeac2;
+            border: 3px solid #d48d4b;
+            padding: 0.6rem 1.8rem;
+            border-radius: 50px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #4f2f14;
+            box-shadow: 0 6px 0 #b4632e;
+            cursor: pointer;
+            transition: 0.1s ease-out;
+            flex-shrink: 0;
+            text-transform: capitalize;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .chip.active {
+            background: #ffbd7f;
+            border-color: #b1520f;
+            box-shadow: 0 4px 0 #b1520f;
+            transform: translateY(2px);
+        }
+        .chip:active {
+            transform: translateY(5px);
+            box-shadow: 0 1px 0 #b4632e;
+        }
+
+        /* feed vocab — seperti social media scroll */
+        .feed-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            margin: 1.5rem 0 2rem;
+        }
+        .vocab-card {
+            background: rgba(255, 245, 215, 0.9);
+            backdrop-filter: blur(2px);
+            border: 4px solid #f9b83c;
+            border-radius: 50px 30px 50px 30px;
+            padding: 1.2rem 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            box-shadow: 12px 12px 0 #ba7b3a, 0 10px 20px rgba(0,0,0,0.1);
+            transition: all 0.2s;
+            cursor: pointer;
+            position: relative;
+            transform: rotate(0deg);
+        }
+        .vocab-card:active {
+            transform: scale(0.98) translateY(3px);
+            box-shadow: 6px 6px 0 #ba7b3a;
+        }
+
+        /* animasi klik (ditambah js) */
+        .vocab-card.pop-animation {
+            animation: pop 0.25s ease-out;
+        }
+        @keyframes pop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.07) rotate(0.5deg); background-color: #fff1b8; }
+        }
+
+        .emoji-big {
+            font-size: 4rem;
+            line-height: 1;
+            filter: drop-shadow(4px 6px 0 #c57c3c);
+            background: #feeac2;
+            width: 85px;
+            height: 85px;
+            border-radius: 40% 60% 40% 60%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid #ff9020;
+        }
+        .words-area {
+            flex: 1;
+        }
+        .english-word {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #361f0e;
+            line-height: 1.2;
+            text-transform: capitalize;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+        }
+        .indonesia-word {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #85532b;
+            background: #ffdbb5;
+            display: inline-block;
+            padding: 0.2rem 1.2rem;
+            border-radius: 40px;
+            border: 2px dashed #f0811b;
+            margin-top: 4px;
+        }
+        .sound-icon {
+            font-size: 1.7rem;
+            margin-left: 0.2rem;
+            filter: drop-shadow(2px 2px 0 #a56123);
+        }
+
+        /* tombol suara tambahan (untuk fallback) */
+        .speaker-hint {
+            background: none;
+            border: none;
+            font-size: 1.7rem;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+        .speaker-hint:active {
+            transform: scale(0.8);
+        }
+
+        /* pesan selamat datang */
+        .welcome-tip {
+            background: #ffeec2;
+            border-radius: 80px;
+            padding: 0.8rem 2rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #754c24;
+            text-align: center;
+            border: 3px solid #e5a04b;
+            box-shadow: inset 0 -3px 0 #ba7b3a;
+        }
+        .footer-note {
+            text-align: center;
+            margin-top: 2rem;
+            color: #6d4f2b;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+<div class="app-wrapper">
+    <div class="header-fun">
+        <h1>📚✨ FunVocab</h1>
+        <p>🇮🇩 ⇄ 🗣️ 🇬🇧</p>
+    </div>
+
+    <!-- kategori filter dengan emoji -->
+    <div class="kategori-scroll" id="kategoriWrap">
+        <div class="chip active" data-kat="all">🌟 semua</div>
+        <!-- akan diisi dari js, tapi kita buat statik cadangan, nanti diganti dinamis -->
+    </div>
+
+    <!-- feed kosa kata seperti scroll media sosial -->
+    <div id="feedContainer" class="feed-container">
+        <!-- diisi javascript -->
+    </div>
+
+    <!-- informasi klik -->
+    <div class="welcome-tip" id="infoPanel">
+        👆 Klik kartu atau 🔈 untuk dengar + animasi!
+    </div>
+
+    <div class="footer-note">
+        ⭐ seruu • ketuk kata • dengar & tirukan
+    </div>
+</div>
+
+<script>
+    (function() {
+        // data kosakata lengkap: Inggris - Indonesia - emoji - kategori
+        const vocabData = [
+            // hewan
+            { en: "dog", id: "anjing", emoji: "🐕", category: "hewan" },
+            { en: "cat", id: "kucing", emoji: "🐈", category: "hewan" },
+            { en: "elephant", id: "gajah", emoji: "🐘", category: "hewan" },
+            { en: "tiger", id: "harimau", emoji: "🐅", category: "hewan" },
+            { en: "bird", id: "burung", emoji: "🐦", category: "hewan" },
+            // benda sekolah
+            { en: "book", id: "buku", emoji: "📘", category: "sekolah" },
+            { en: "pencil", id: "pensil", emoji: "✏️", category: "sekolah" },
+            { en: "ruler", id: "penggaris", emoji: "📏", category: "sekolah" },
+            { en: "eraser", id: "penghapus", emoji: "🧽", category: "sekolah" },
+            { en: "backpack", id: "tas ransel", emoji: "🎒", category: "sekolah" },
+            // warna
+            { en: "red", id: "merah", emoji: "🔴", category: "warna" },
+            { en: "blue", id: "biru", emoji: "🔵", category: "warna" },
+            { en: "yellow", id: "kuning", emoji: "🟡", category: "warna" },
+            { en: "green", id: "hijau", emoji: "🟢", category: "warna" },
+            // angka
+            { en: "one", id: "satu", emoji: "1️⃣", category: "angka" },
+            { en: "two", id: "dua", emoji: "2️⃣", category: "angka" },
+            { en: "three", id: "tiga", emoji: "3️⃣", category: "angka" },
+            { en: "four", id: "empat", emoji: "4️⃣", category: "angka" },
+            { en: "five", id: "lima", emoji: "5️⃣", category: "angka" },
+            // keluarga
+            { en: "mother", id: "ibu", emoji: "👩", category: "keluarga" },
+            { en: "father", id: "ayah", emoji: "👨", category: "keluarga" },
+            { en: "brother", id: "saudara laki", emoji: "👦", category: "keluarga" },
+            { en: "sister", id: "saudari", emoji: "👧", category: "keluarga" },
+            { en: "baby", id: "bayi", emoji: "👶", category: "keluarga" },
+            // makanan
+            { en: "pizza", id: "pizza", emoji: "🍕", category: "makanan" },
+            { en: "rice", id: "nasi", emoji: "🍚", category: "makanan" },
+            { en: "bread", id: "roti", emoji: "🍞", category: "makanan" },
+            { en: "apple", id: "apel", emoji: "🍎", category: "makanan" },
+            { en: "milk", id: "susu", emoji: "🥛", category: "makanan" },
+        ];
+
+        // daftar unik kategori + jumlah
+        const categorySet = new Set(vocabData.map(item => item.category));
+        const categories = ['all', ...Array.from(categorySet)]; // tambahkan 'all'
+
+        // render chip kategori
+        const kategoriWrap = document.getElementById('kategoriWrap');
+        function renderChips(activeKat = 'all') {
+            let htmlStr = '';
+            categories.forEach(kat => {
+                let displayName = kat === 'all' ? '🌟 semua' : kat.charAt(0).toUpperCase() + kat.slice(1);
+                // tambahin emoji kecil buat masing2 (opsional)
+                let emojiKat = '';
+                if (kat === 'hewan') emojiKat = '🐾 ';
+                else if (kat === 'sekolah') emojiKat = '📚 ';
+                else if (kat === 'warna') emojiKat = '🎨 ';
+                else if (kat === 'angka') emojiKat = '🔢 ';
+                else if (kat === 'keluarga') emojiKat = '👪 ';
+                else if (kat === 'makanan') emojiKat = '🍲 ';
+                else if (kat === 'all') emojiKat = '🔤 ';
+                const activeClass = (kat === activeKat) ? 'active' : '';
+                htmlStr += `<div class="chip ${activeClass}" data-kat="${kat}">${emojiKat} ${displayName}</div>`;
+            });
+            kategoriWrap.innerHTML = htmlStr;
+
+            // pasang event listener ke chip
+            document.querySelectorAll('.chip').forEach(chip => {
+                chip.addEventListener('click', (e) => {
+                    const kat = chip.dataset.kat;
+                    // update active class
+                    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+                    chip.classList.add('active');
+                    filterAndRender(kat);
+                });
+            });
+        }
+
+        // filter data berdasar kategori
+        function filterByCategory(kat) {
+            if (kat === 'all') return vocabData;
+            return vocabData.filter(item => item.category === kat);
+        }
+
+        // Fungsi membaca teks dengan SpeechSynthesis (dengan handling aman)
+        function speakWord(word, lang = 'en-US') {
+            if (!window.speechSynthesis) {
+                alert('Browser tidak mendukung text-to-speech, tapi suara imajinasi✨');
+                return;
+            }
+            // batasi multiple utterance bersamaan
+            if (window.speechSynthesis.speaking) {
+                window.speechSynthesis.cancel();
+            }
+            const utterance = new SpeechSynthesisUtterance(word);
+            utterance.lang = lang; // untuk pronounciation
+            utterance.rate = 0.9;
+            utterance.pitch = 1.2;
+            utterance.volume = 1;
+            // pilih voice Indonesia jika ingin, tapi biar default enggak apa
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // animasi pada card (pop) + suara EN
+        function handleCardClick(card, enWord, idWord) {
+            // animasi
+            card.classList.add('pop-animation');
+            setTimeout(() => {
+                card.classList.remove('pop-animation');
+            }, 250);
+
+            // update info panel dengan kata indo & instruksi
+            const infoPanel = document.getElementById('infoPanel');
+            infoPanel.innerHTML = `🔊 ${enWord} (🇮🇩 ${idWord}) – dengar.. tirukan!`;
+
+            // suara bahasa inggris (pelafalan)
+            speakWord(enWord, 'en-US');
+        }
+
+        // render feed
+        function renderFeed(filtered) {
+            const feed = document.getElementById('feedContainer');
+            if (filtered.length === 0) {
+                feed.innerHTML = `<div class="vocab-card" style="justify-content: center; background: #ffe0a8; opacity:0.9">✨ kosakata tidak ada ✨</div>`;
+                return;
+            }
+
+            let feedHtml = '';
+            filtered.forEach(item => {
+                feedHtml += `
+                    <div class="vocab-card" data-en="${item.en}" data-id="${item.id}" data-emoji="${item.emoji}">
+                        <div class="emoji-big">${item.emoji}</div>
+                        <div class="words-area">
+                            <div class="english-word">
+                                ${item.en} 
+                                <span class="speaker-hint" role="button" aria-label="dengar suara" tabindex="0">🔊</span>
+                            </div>
+                            <div class="indonesia-word">${item.id}</div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            feed.innerHTML = feedHtml;
+
+            // tambahkan event listener ke setiap card
+            document.querySelectorAll('.vocab-card').forEach(card => {
+                const enWord = card.dataset.en;
+                const idWord = card.dataset.id;
+
+                // event utama di card (termasuk area kecuali tombol suara nanti ditangani sendiri)
+                card.addEventListener('click', (e) => {
+                    // jika yang diklik adalah .speaker-hint, kita handle terpisah? Biar tidak dobel suara
+                    // caranya: cek target
+                    if (e.target.classList.contains('speaker-hint') || e.target.closest('.speaker-hint')) {
+                        e.stopPropagation();  // cegah card click double trigger
+                        // kita trigger suara dari sini dan sedikit info (animasi tetap manual dari card? Tapi kita panggil sendiri)
+                        // kita beri animasi ringan ke card? tambahin class
+                        card.classList.add('pop-animation');
+                        setTimeout(() => card.classList.remove('pop-animation'), 200);
+                        speakWord(enWord, 'en-US');
+                        infoPanel.innerHTML = `🎤 ${enWord} (${idWord}) – fokus ke suara!`;
+                        return;
+                    }
+                    // jika tidak diklik tombol, jalankan full handler
+                    handleCardClick(card, enWord, idWord);
+                });
+
+                // tambahkan supaya tombol suara mudah diakses (tapi sudah di atas)
+                // juga bisa pakai keyboard
+                const speakerBtn = card.querySelector('.speaker-hint');
+                if (speakerBtn) {
+                    // sudah dihandle oleh event di atas, tapi kita perlu pastikan jangan dobel
+                    // event sudah di card dengan pengecekan target, jadi speaker tidak akan menjalankan handleCardClick penuh.
+                    // tapi dia tetap menjalankan pop-animation via card.click? karena kita memanggil card.click? tidak. sudah dicegah stopPropagation.
+                    // tapi kita juga perlu menambah animasi saat tombol diklik manual. sudah ditambahkan di atas.
+                }
+            });
+        }
+
+        // filter dan render berdasarkan kategori
+        function filterAndRender(kat) {
+            const filtered = filterByCategory(kat);
+            renderFeed(filtered);
+        }
+
+        // inisialisasi: chip + feed awal (all)
+        renderChips('all');
+        filterAndRender('all');
+
+        // opsional: default pesan tidak perlu diubah, infoPanel sudah ada
+
+        // tambahan: sentuhan untuk yang tidak bisa suara (browser lama) diam saja
+        // fallback: menampilkan bahwa suara tersedia atau tidak (tidak perlu)
+
+        // cek dukungan speechSynthesis dan beri info (browser lama)
+        if (!window.speechSynthesis) {
+            document.getElementById('infoPanel').innerHTML += ' ⚠️ suara tidak didukung browser, tapi kartu tetap seru!';
+        }
+
+        // tambah fitur: saat klik dua kali? tidak perlu
+        // pastikan scroll kategory mentok
+    })();
+</script>
+</body>
+</html>

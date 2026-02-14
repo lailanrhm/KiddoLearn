@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Tug of War · tarik tambang matematika</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: linear-gradient(145deg, #1e4b5e 0%, #227a8f 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            padding: 16px;
+            margin: 0;
+        }
+
+        .game-container {
+            background: #fef9e8;
+            border-radius: 60px 60px 40px 40px;
+            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.5), inset 0 0 0 2px #ffeec2;
+            max-width: 900px;
+            width: 100%;
+            padding: 30px 25px 35px;
+            border-bottom: 8px solid #bb9b6e;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: #2f2a1f;
+            text-shadow: 3px 3px 0 #f3cd81;
+            margin-top: -10px;
+            margin-bottom: 10px;
+            word-break: break-word;
+        }
+
+        .sub {
+            text-align: center;
+            font-weight: 600;
+            color: #1c5a6b;
+            background: #e2f0e9;
+            display: inline-block;
+            padding: 6px 28px;
+            margin: 0 auto 25px;
+            border-radius: 40px;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+            box-shadow: inset 0 2px 5px #b0cfc1;
+        }
+
+        /* arena tarik tambang */
+        .tug-area {
+            background: #d9c8a1;
+            border-radius: 120px 120px 30px 30px;
+            padding: 25px 20px 15px;
+            border: 5px solid #a58357;
+            box-shadow: inset 0 -5px 0 #6d4f2e;
+            margin-bottom: 30px;
+        }
+
+        .field {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #9bba8e;
+            background-image: radial-gradient(circle at 10px 10px, #aacf9c 3px, transparent 3px), 
+                              radial-gradient(circle at 30px 25px, #aacf9c 3px, transparent 3px);
+            background-size: 40px 40px;
+            border-radius: 100px;
+            padding: 12px 20px;
+            border: 4px solid #5e7a4b;
+            margin: 10px 0;
+            position: relative;
+            min-height: 130px;
+        }
+
+        .character {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 110px;
+            filter: drop-shadow(4px 8px 0 rgba(0,0,0,0.2));
+            z-index: 5;
+        }
+
+        .avatar {
+            font-size: 4rem;
+            line-height: 1;
+            transition: transform 0.15s ease;
+        }
+
+        .avatar.pull-left {
+            transform: translateX(-6px) rotate(-5deg);
+        }
+        .avatar.pull-right {
+            transform: translateX(6px) rotate(5deg);
+        }
+
+        .char-name {
+            background: #fcf2cf;
+            border-radius: 30px;
+            padding: 6px 18px;
+            font-weight: 700;
+            border: 2px solid #b9945c;
+            margin-top: 5px;
+            font-size: 1rem;
+            white-space: nowrap;
+        }
+
+        /* tali dan penarik */
+        .rope-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 5px;
+        }
+
+        .rope {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            background: #7c5e3a;
+            height: 18px;
+            border-radius: 20px;
+            box-shadow: 0 4px 0 #4a3a23, inset 0 2px 5px #ebd5a0;
+            margin: 12px 0 5px;
+            position: relative;
+        }
+
+        .rope-center {
+            width: 20px;
+            height: 36px;
+            background: #c92f2f;
+            border-radius: 40px;
+            border: 3px solid #ffd966;
+            box-shadow: 0 0 0 3px #a04545;
+            margin-top: -12px;
+            transition: margin-left 0.2s ease-out;
+            z-index: 10;
+        }
+
+        .victory-line {
+            width: 6px;
+            height: 65px;
+            background: repeating-linear-gradient(45deg, #ffe8a0 0px, #ffe8a0 8px, #b8860b 8px, #b8860b 16px);
+            border: 2px solid #a1651a;
+            border-radius: 10px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            pointer-events: none;
+            box-shadow: 0 0 0 4px #f0d49e;
+            bottom: -10px;
+        }
+
+        .score-bar {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            font-weight: bold;
+            font-size: 1.2rem;
+            padding: 0 8px;
+            color: #2d3722;
+        }
+
+        /* kotak soal */
+        .quiz-panel {
+            background: #faeec1;
+            border-radius: 50px;
+            padding: 22px 20px;
+            border: 4px solid #c5a15b;
+            box-shadow: inset 0 2px 10px #ffeeaa, 0 8px 0 #8b6d40;
+            margin-top: 20px;
+        }
+
+        .question-box {
+            background: #1e2f4b;
+            border-radius: 90px;
+            padding: 16px 20px;
+            color: white;
+            font-size: 2.8rem;
+            font-weight: 700;
+            text-align: center;
+            letter-spacing: 2px;
+            border: 4px solid #ffb852;
+            margin-bottom: 25px;
+            box-shadow: inset 0 -3px 0 #040d1a;
+            word-break: break-word;
+        }
+
+        .answer-area {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #answerInput {
+            width: 160px;
+            font-size: 2.2rem;
+            padding: 8px 15px;
+            text-align: center;
+            border: 4px solid #a57134;
+            border-radius: 60px;
+            background: #fcf9e6;
+            font-weight: 700;
+            outline: none;
+            box-shadow: inset 0 2px 8px #c7a469;
+        }
+
+        .btn {
+            background: #ffb347;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            padding: 15px 35px;
+            cursor: pointer;
+            border-bottom: 6px solid #a56517;
+            color: #2c1f0a;
+            transition: 0.07s;
+            box-shadow: 0 4px 0 #8b541e;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            background: #ffa42b;
+            transform: scale(0.98);
+        }
+
+        .btn:active {
+            border-bottom-width: 2px;
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #8b541e;
+        }
+
+        .status-area {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            background: #c1d5ba;
+            border-radius: 40px;
+            padding: 12px 20px;
+            border: 3px solid #729b79;
+        }
+
+        .level-badge {
+            background: #2c5530;
+            color: white;
+            border-radius: 30px;
+            padding: 6px 25px;
+        }
+
+        .win-message {
+            background: gold;
+            font-size: 1.8rem;
+            text-align: center;
+            padding: 18px;
+            border-radius: 60px;
+            font-weight: 800;
+            border: 4px solid #b37b2e;
+            margin-top: 20px;
+        }
+
+        .reset-btn {
+            background: #6f8c9d;
+            border-bottom-color: #2a4555;
+            color: white;
+            font-size: 1.4rem;
+            padding: 10px 30px;
+            box-shadow: 0 4px 0 #1d3340;
+        }
+
+        .footer {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container" id="gameContainer">
+        <h1>⚡ TARIK TAMBANG ⚡</h1>
+        <div style="text-align: center;"><span class="sub">➕➖✖️➗ matematika seru</span></div>
+
+        <!-- area tarik tambang -->
+        <div class="tug-area">
+            <div class="field" id="tugField">
+                <!-- karakter kiri -->
+                <div class="character" id="leftChar">
+                    <span class="avatar" id="leftAvatar">🧑‍🚀</span>
+                    <span class="char-name">TIM KIRI</span>
+                </div>
+
+                <!-- tali dengan penanda -->
+                <div class="rope-section">
+                    <div class="rope" id="rope">
+                        <div class="rope-center" id="ropeMarker" style="margin-left: 0%;"></div>
+                    </div>
+                    <div class="score-bar">
+                        <span id="leftScoreSpan">0</span>
+                        <span>🏁</span>
+                        <span id="rightScoreSpan">0</span>
+                    </div>
+                    <div class="victory-line"></div>
+                </div>
+
+                <!-- karakter kanan -->
+                <div class="character" id="rightChar">
+                    <span class="avatar" id="rightAvatar">🧑‍🎄</span>
+                    <span class="char-name">TIM KANAN</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- soal & jawaban -->
+        <div class="quiz-panel">
+            <div class="question-box" id="questionDisplay">3 + 2 = ?</div>
+            <div class="answer-area">
+                <input type="number" id="answerInput" placeholder="?" value="">
+                <button class="btn" id="submitBtn">✔️ JAWAB</button>
+            </div>
+        </div>
+
+        <!-- status & level -->
+        <div class="status-area">
+            <span class="level-badge" id="levelDisplay">Level 1 : +</span>
+            <span id="messageDisplay">Jawab dengan benar!</span>
+        </div>
+
+        <!-- tombol reset & pesan menang -->
+        <div id="winBanner" style="min-height: 70px;"></div>
+        <div class="footer">
+            <button class="btn reset-btn" id="resetGame">🔄 Mulai Lagi</button>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            // ---------- GAME STATE ----------
+            const WIN_SCORE = 5;                // butuh 5 poin untuk menang
+            let leftScore = 0;                   // skor tim kiri (pemain)
+            let rightScore = 0;                   // skor tim kanan (lawan / komputer)
+            let currentLevel = 1;                  // 1..4
+            let currentQuestion = { text: '3 + 2', answer: 5 };
+            let gameActive = true;
+            let winner = null;                     // 'left', 'right', null
+
+            // elemen DOM
+            const leftScoreSpan = document.getElementById('leftScoreSpan');
+            const rightScoreSpan = document.getElementById('rightScoreSpan');
+            const ropeMarker = document.getElementById('ropeMarker');
+            const questionDisplay = document.getElementById('questionDisplay');
+            const answerInput = document.getElementById('answerInput');
+            const submitBtn = document.getElementById('submitBtn');
+            const levelDisplay = document.getElementById('levelDisplay');
+            const messageDisplay = document.getElementById('messageDisplay');
+            const winBanner = document.getElementById('winBanner');
+            const resetBtn = document.getElementById('resetGame');
+            const leftAvatar = document.getElementById('leftAvatar');
+            const rightAvatar = document.getElementById('rightAvatar');
+
+            // ---------- helper : generate soal berdasarkan level ----------
+            function generateQuestion(level) {
+                let a, b, op, text, answer;
+                const maxLevel = Math.min(level, 4); // level 1-4
+
+                switch (maxLevel) {
+                    case 1: // penjumlahan
+                        a = Math.floor(Math.random() * 6) + 2;  // 2-7
+                        b = Math.floor(Math.random() * 5) + 1;  // 1-5
+                        op = '+';
+                        answer = a + b;
+                        text = `${a} ${op} ${b}`;
+                        break;
+                    case 2: // pengurangan (hasil positif)
+                        a = Math.floor(Math.random() * 8) + 5;  // 5-12
+                        b = Math.floor(Math.random() * 5) + 1;  // 1-5
+                        a = Math.max(a, b + 1); // pastikan a > b
+                        op = '−';
+                        answer = a - b;
+                        text = `${a} ${op} ${b}`;
+                        break;
+                    case 3: // perkalian dasar
+                        a = Math.floor(Math.random() * 5) + 2;  // 2-6
+                        b = Math.floor(Math.random() * 4) + 2;  // 2-5
+                        op = '×';
+                        answer = a * b;
+                        text = `${a} ${op} ${b}`;
+                        break;
+                    case 4: // campuran (+ - ×) sederhana
+                        let r = Math.floor(Math.random() * 3);
+                        if (r === 0) { // +
+                            a = Math.floor(Math.random() * 7) + 3;
+                            b = Math.floor(Math.random() * 6) + 2;
+                            op = '+';
+                            answer = a + b;
+                        } else if (r === 1) { // - positif
+                            a = Math.floor(Math.random() * 10) + 5;
+                            b = Math.floor(Math.random() * 5) + 1;
+                            a = Math.max(a, b + 2);
+                            op = '−';
+                            answer = a - b;
+                        } else { // × kecil
+                            a = Math.floor(Math.random() * 4) + 2;
+                            b = Math.floor(Math.random() * 4) + 2;
+                            op = '×';
+                            answer = a * b;
+                        }
+                        text = `${a} ${op} ${b}`;
+                        break;
+                    default: // fallback
+                        a = 3; b = 2; op = '+'; answer = 5; text = '3 + 2';
+                }
+                return { text, answer };
+            }
+
+            // update soal di UI
+            function refreshQuestion() {
+                if (!gameActive && winner) return; // game selesai, tahan soal
+                currentQuestion = generateQuestion(currentLevel);
+                questionDisplay.innerText = currentQuestion.text + ' = ?';
+                answerInput.value = '';
+                answerInput.focus();
+            }
+
+            // update tampilan skor, tali, level
+            function updateUI() {
+                leftScoreSpan.innerText = leftScore;
+                rightScoreSpan.innerText = rightScore;
+
+                // posisi marker: leftScore dari kiri, rightScore dari kanan, total lebar 100%
+                // margin-left = (leftScore / (leftScore+rightScore)) * 100? tapi saat 0:0 di tengah.
+                // Kita geser dari tengah: selisih = leftScore - rightScore. batasi -4 .. +4 (karena max 5)
+                const diff = leftScore - rightScore;
+                const maxDiff = WIN_SCORE - 1; // -4 .. +4
+                let percent = 50;  // tengah 50%
+                if (diff !== 0) {
+                    // peta dari diff (-4..4) ke margin 15% .. 85% (biar keliatan)
+                    // diff -4 -> margin kiri 15% (dekat kanan) ; diff +4 -> margin 85% (dekat kiri)
+                    // mapping: percent = 50 + (diff * 8.75)    krn 4*8.75=35, +-35 dari 50 = 15 / 85
+                    percent = 50 + (diff * 7.5); // 50 +-30 (20 s.d 80) aman
+                    percent = Math.min(85, Math.max(15, percent));
+                }
+                ropeMarker.style.marginLeft = percent + '%';
+
+                // animasi tarikan kecil pada avatar
+                if (diff > 0.5) {
+                    leftAvatar.classList.add('pull-left');
+                    rightAvatar.classList.remove('pull-right');
+                } else if (diff < -0.5) {
+                    rightAvatar.classList.add('pull-right');
+                    leftAvatar.classList.remove('pull-left');
+                } else {
+                    leftAvatar.classList.remove('pull-left');
+                    rightAvatar.classList.remove('pull-right');
+                }
+
+                // update level tulisan
+                const levelNames = ['', '+', '−', '×', '± campuran'];
+                levelDisplay.innerText = `Level ${currentLevel} : ${levelNames[currentLevel] || ''}`;
+            }
+
+            // cek pemenang
+            function checkWinner() {
+                if (leftScore >= WIN_SCORE) return 'left';
+                if (rightScore >= WIN_SCORE) return 'right';
+                return null;
+            }
+
+            // menangani kemenangan
+            function handleWin(winnerSide) {
+                gameActive = false;
+                winner = winnerSide;
+                let message = '';
+                if (winnerSide === 'left') {
+                    message = '🎉 TIM KIRI MENANG! 🎉  Keren jawabanmu!';
+                } else {
+                    message = '😵 TIM KANAN MENANG... ayo coba lagi!';
+                }
+                winBanner.innerHTML = `<div class="win-message">${message}</div>`;
+                messageDisplay.innerText = winnerSide === 'left' ? 'Selamat! 🏆' : 'Yah kalah, reset yuk';
+                submitBtn.disabled = true;
+                answerInput.disabled = true;
+            }
+
+            // proses jawaban (dipanggil saat submit)
+            function processAnswer() {
+                if (!gameActive) {
+                    alert('Permainan sudah selesai. Klik "Mulai Lagi"');
+                    return;
+                }
+                const inputVal = answerInput.value.trim();
+                if (inputVal === '') {
+                    messageDisplay.innerText = 'Masukkan angka!';
+                    return;
+                }
+                const userAns = Number(inputVal);
+                if (isNaN(userAns)) {
+                    messageDisplay.innerText = 'Harus angka ya!';
+                    return;
+                }
+
+                const correct = currentQuestion.answer;
+                let feedback = '';
+
+                if (userAns === correct) {
+                    // jawaban benar: tim kiri maju
+                    leftScore = Math.min(leftScore + 1, WIN_SCORE);
+                    feedback = '✅ Benar! Timmu menarik tambang.';
+                    // efek naik level tiap 2 jawaban benar? kita naikkan level perlahan
+                    if (leftScore % 2 === 0 && currentLevel < 4) {
+                        currentLevel++;
+                    }
+                } else {
+                    // jawaban salah: lawan (kanan) maju
+                    rightScore = Math.min(rightScore + 1, WIN_SCORE);
+                    feedback = `❌ Salah! Jawaban: ${correct}. Lawan menarik.`;
+                }
+
+                messageDisplay.innerText = feedback;
+                updateUI();
+
+                // cek pemenang setelah update
+                const win = checkWinner();
+                if (win) {
+                    handleWin(win);
+                } else {
+                    // buat soal baru hanya jika game masih aktif
+                    if (gameActive) refreshQuestion();
+                }
+                updateUI(); // double update aman
+            }
+
+            // reset game sepenuhnya
+            function resetGame() {
+                leftScore = 0;
+                rightScore = 0;
+                currentLevel = 1;
+                gameActive = true;
+                winner = null;
+                submitBtn.disabled = false;
+                answerInput.disabled = false;
+                winBanner.innerHTML = '';
+                messageDisplay.innerText = 'Jawab dengan benar!';
+                // generate soal pertama
+                currentQuestion = generateQuestion(1);
+                questionDisplay.innerText = currentQuestion.text + ' = ?';
+                answerInput.value = '';
+                updateUI();
+                answerInput.focus();
+
+                // reset avatar class
+                leftAvatar.classList.remove('pull-left');
+                rightAvatar.classList.remove('pull-right');
+            }
+
+            // event listeners
+            submitBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (gameActive) processAnswer();
+            });
+
+            answerInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (gameActive) processAnswer();
+                }
+            });
+
+            resetBtn.addEventListener('click', function() {
+                resetGame();
+            });
+
+            // inisialisasi
+            resetGame();
+
+            // validasi agar tidak bisa mengubah angka setelah menang
+            // sudah dihandle dengan disabled
+        })();
+    </script>
+</body>
+</html>

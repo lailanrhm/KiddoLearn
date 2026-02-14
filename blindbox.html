@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎁 Edu Blind Box · main & belajar</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: linear-gradient(145deg, #2b1b4e 0%, #1f3a5f 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', 'Fredoka One', 'Comic Sans MS', cursive, sans-serif;
+            padding: 16px;
+            margin: 0;
+        }
+
+        .game-container {
+            max-width: 1000px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(8px);
+            border-radius: 60px 60px 40px 40px;
+            padding: 28px 24px 36px;
+            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.5), inset 2px 2px 8px rgba(255, 255, 255, 0.3);
+            border: 2px solid #ffdd99;
+        }
+
+        /* header dengan koleksi stiker */
+        .sticker-bar {
+            background: #ffecbb;
+            border-radius: 100px;
+            padding: 16px 28px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 32px;
+            border: 4px solid #ffb347;
+            box-shadow: inset 0 -4px 0 #aa6f2c;
+        }
+
+        .sticker-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #cb7b3c;
+            color: white;
+            padding: 10px 24px;
+            border-radius: 60px;
+            font-size: 1.4rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 0 #6e3e1c;
+            box-shadow: 0 6px 0 #6e3e1c;
+        }
+
+        .sticker-collection {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+            flex: 1;
+            min-height: 58px;
+        }
+
+        .sticker-item {
+            background: white;
+            border-radius: 50%;
+            width: 55px;
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.3rem;
+            box-shadow: 0 6px 0 #b3772e, 0 8px 12px rgba(0,0,0,0.3);
+            transition: 0.2s;
+            border: 3px solid #f9d56b;
+            transform: rotate(2deg);
+        }
+
+        .sticker-item.new-shake {
+            animation: pop 0.4s ease;
+        }
+
+        @keyframes pop {
+            0% { transform: scale(0.2) rotate(-10deg); opacity: 0; }
+            70% { transform: scale(1.2) rotate(4deg); }
+            100% { transform: scale(1) rotate(2deg); }
+        }
+
+        .score-badge {
+            background: #3f2870;
+            color: #ffd966;
+            padding: 12px 22px;
+            border-radius: 40px;
+            font-size: 1.9rem;
+            font-weight: bold;
+            border: 3px solid #ffb703;
+            box-shadow: 0 6px 0 #4d2e00;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .score-badge span {
+            font-size: 2.4rem;
+            line-height: 1;
+        }
+
+        /* grid blind box */
+        .boxes-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin: 40px 0 30px;
+            justify-items: center;
+        }
+
+        .blind-box {
+            background: radial-gradient(circle at 30% 30%, #f6e7c5, #cea76f);
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            border-radius: 30px 30px 20px 20px;
+            border: 5px solid #fcd48c;
+            box-shadow: 0 12px 0 #8b5a2b, 0 12px 20px rgba(0,0,0,0.5);
+            cursor: pointer;
+            transition: 0.07s linear;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #4b2e16;
+            position: relative;
+            padding: 8px;
+        }
+
+        .blind-box:active {
+            transform: translateY(8px);
+            box-shadow: 0 4px 0 #8b5a2b, 0 10px 16px rgba(0,0,0,0.4);
+        }
+
+        .blind-box.opened {
+            box-shadow: 0 6px 0 #4f6d5c, 0 12px 20px rgba(0,0,0,0.4);
+            border: 5px solid #b0e0b2;
+            background: #fef8e7;
+            cursor: default;
+            transform: none;
+        }
+
+        .blind-box.opened:active {
+            transform: none;
+            box-shadow: 0 6px 0 #4f6d5c, 0 12px 20px rgba(0,0,0,0.4);
+        }
+
+        .question-badge {
+            background: #f4c27a;
+            border-radius: 40px;
+            padding: 8px 12px;
+            font-size: 1.2rem;
+            color: #2c1d0a;
+            border: 2px solid white;
+            margin-top: 4px;
+            max-width: 90%;
+            word-break: break-word;
+        }
+
+        .reward-emoji {
+            font-size: 4rem;
+            line-height: 1;
+            filter: drop-shadow(2px 6px 0 #c97f2b);
+        }
+
+        .empty-message {
+            font-size: 1.2rem;
+            color: #a5a5a5;
+            background: #ececec;
+            padding: 6px 12px;
+            border-radius: 30px;
+            font-weight: 500;
+        }
+
+        /* area jawab */
+        .answer-panel {
+            background: #ffe3b0;
+            border-radius: 60px;
+            padding: 24px 28px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            border: 4px solid #f4a261;
+            box-shadow: inset 0 -5px 0 #b66827, 0 8px 0 #5f3c1a;
+            margin-top: 20px;
+        }
+
+        .active-question {
+            background: #4c2b6d;
+            border-radius: 40px;
+            padding: 14px 24px;
+            color: #f9e572;
+            font-size: 2rem;
+            font-weight: 600;
+            min-width: 200px;
+            text-align: center;
+            border: 3px solid #ffbc6e;
+            box-shadow: 0 4px 0 #2f1b41;
+            word-break: break-word;
+        }
+
+        .input-area {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            flex: 2 1 300px;
+            justify-content: center;
+        }
+
+        #answerInput {
+            background: white;
+            border: 4px solid #b3772e;
+            border-radius: 60px;
+            padding: 16px 22px;
+            font-size: 1.6rem;
+            width: 200px;
+            text-align: center;
+            font-weight: bold;
+            color: #2e1b0e;
+            outline: none;
+            box-shadow: inset 0 3px 6px #aaa;
+        }
+
+        .btn {
+            background: #ff9f4b;
+            border: none;
+            border-radius: 60px;
+            padding: 16px 32px;
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 0 #a35100;
+            border: 3px solid #ffe39b;
+            box-shadow: 0 7px 0 #9b5100, 0 8px 12px black;
+            cursor: pointer;
+            transition: 0.05s linear;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn:active {
+            transform: translateY(5px);
+            box-shadow: 0 2px 0 #9b5100, 0 8px 12px black;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            transform: translateY(0);
+            box-shadow: 0 5px 0 #6f3f00;
+            pointer-events: none;
+        }
+
+        .motivation-message {
+            background: #f9d9b4;
+            border-radius: 40px;
+            padding: 10px 24px;
+            font-size: 1.5rem;
+            color: #7b3f00;
+            font-weight: 500;
+            text-align: center;
+            border: 3px dashed #ffb756;
+        }
+
+        .footer-reset {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 16px;
+        }
+
+        #resetBtn {
+            background: #9775b9;
+            padding: 12px 28px;
+            font-size: 1.4rem;
+            box-shadow: 0 6px 0 #4d346b;
+        }
+    </style>
+</head>
+<body>
+<div class="game-container">
+    <!-- Sticker collection & poin -->
+    <div class="sticker-bar">
+        <div class="sticker-title">
+            <span>🎴</span> STIKERKU
+        </div>
+        <div class="sticker-collection" id="stickerCollection">
+            <!-- sticker akan muncul di sini via js -->
+        </div>
+        <div class="score-badge">
+            <span>⭐</span> <span id="scoreDisplay">0</span>
+        </div>
+    </div>
+
+    <!-- Grid Blind Box 4x2 (biar rapi, kita pakai 8 kotak) -->
+    <div class="boxes-grid" id="boxesGrid">
+        <!-- akan di-generate 8 blind box -->
+    </div>
+
+    <!-- Area jawab & pertanyaan aktif -->
+    <div class="answer-panel" id="answerPanel">
+        <div class="active-question" id="activeQuestion">🤔 Pilih kotak</div>
+        <div class="input-area">
+            <input type="text" id="answerInput" placeholder="Jawaban..." autocomplete="off">
+            <button class="btn" id="submitAnswer">🔍 Jawab</button>
+        </div>
+    </div>
+
+    <!-- Pesan motivasi / try again -->
+    <div class="motivation-message" id="motivationMsg"></div>
+
+    <!-- Tombol reset (ulang main) -->
+    <div class="footer-reset">
+        <button class="btn" id="resetBtn">🔄 Main Lagi</button>
+    </div>
+</div>
+
+<script>
+    (function() {
+        // Koleksi soal – beragam: matematika, vocab inggris, tebak gambar (kata benda)
+        const CHALLENGES = [
+            // math
+            { type: 'math', question: '7 – 3 = ?', answer: '4', hint: '4', reward: '🐶' },
+            { type: 'math', question: '5 + 2 = ?', answer: '7', hint: '7', reward: '🐱' },
+            { type: 'math', question: '9 – 5 = ?', answer: '4', hint: '4', reward: '🐼' },
+            { type: 'math', question: '3 + 6 = ?', answer: '9', hint: '9', reward: '🐸' },
+            // english vocabulary
+            { type: 'vocab', question: '🍎 Bahasa Inggris?', answer: 'apple', hint: 'apple', reward: '🍎' },
+            { type: 'vocab', question: '🐄 Bahasa Inggris?', answer: 'cow', hint: 'cow', reward: '🐮' },
+            { type: 'vocab', question: '✏️ Bahasa Inggris?', answer: 'pencil', hint: 'pencil', reward: '✏️' },
+            { type: 'vocab', question: '🚗 Bahasa Inggris?', answer: 'car', hint: 'car', reward: '🚗' },
+            // gambar / benda (tebak nama inggris)
+            { type: 'object', question: 'Hewan ini? 🐘', answer: 'elephant', hint: 'elephant', reward: '🐘' },
+            { type: 'object', question: 'Benda ini? ☎️', answer: 'telephone', hint: 'telephone', reward: '📞' },
+            { type: 'object', question: 'Bunga? 🌻', answer: 'sunflower', hint: 'sunflower', reward: '🌻' },
+            { type: 'object', question: 'Hewan? 🦒', answer: 'giraffe', hint: 'giraffe', reward: '🦒' }
+        ];
+
+        // acak 8 soal unik untuk blind box (boleh double, tapi kita buat menarik)
+        function pickRandomChallenges(count) {
+            const shuffled = [...CHALLENGES].sort(() => Math.random() - 0.5);
+            return shuffled.slice(0, count);
+        }
+
+        let boxes = [];              // menyimpan status tiap kotak: { challenge, isOpened, isAnswered, isCorrect, givenReward }
+        let stickerList = [];        // koleksi stiker (emoji)
+        let currentBoxIndex = null;  // index kotak yang sedang dibuka (menunggu jawaban)
+        let score = 0;
+
+        // elemen DOM
+        const gridEl = document.getElementById('boxesGrid');
+        const stickerCollectionEl = document.getElementById('stickerCollection');
+        const scoreDisplayEl = document.getElementById('scoreDisplay');
+        const activeQuestionEl = document.getElementById('activeQuestion');
+        const answerInput = document.getElementById('answerInput');
+        const submitBtn = document.getElementById('submitAnswer');
+        const motivationMsg = document.getElementById('motivationMsg');
+        const resetBtn = document.getElementById('resetBtn');
+
+        // helper render semua kotak
+        function renderBoxes() {
+            gridEl.innerHTML = '';
+            boxes.forEach((box, idx) => {
+                const boxDiv = document.createElement('div');
+                boxDiv.className = 'blind-box' + (box.isOpened ? ' opened' : '');
+                if (!box.isOpened) {
+                    boxDiv.addEventListener('click', () => openBox(idx));
+                }
+
+                // isi kotak sesuai status
+                if (!box.isOpened) {
+                    // kotak tertutup: gambar hadiah ?
+                    boxDiv.innerHTML = `<span style="font-size:3rem;">🎁</span><span class="question-badge">???</span>`;
+                } else {
+                    // sudah terbuka
+                    if (box.isAnswered) {
+                        if (box.isCorrect) {
+                            // reward / stiker
+                            boxDiv.innerHTML = `<span class="reward-emoji">${box.givenReward || '⭐'}</span>`;
+                        } else {
+                            // salah : kotak kosong
+                            boxDiv.innerHTML = `<span style="font-size:2.5rem;">📭</span><span class="empty-message">try again</span>`;
+                        }
+                    } else {
+                        // terbuka tapi belum dijawab: tampilkan soal
+                        const q = box.challenge.question;
+                        boxDiv.innerHTML = `<span style="font-size:1.8rem;">❓</span><span class="question-badge">${q}</span>`;
+                    }
+                }
+                gridEl.appendChild(boxDiv);
+            });
+        }
+
+        // buka kotak berdasarkan index
+        function openBox(index) {
+            const box = boxes[index];
+            if (box.isOpened) return;           // sudah terbuka
+
+            // kalau ada kotak lain yg sedang menunggu jawaban, biarkan, tapi kita bisa peringatan
+            if (currentBoxIndex !== null && currentBoxIndex !== index && !boxes[currentBoxIndex].isAnswered) {
+                motivationMsg.innerText = '✨ Selesaikan dulu kotak yang terbuka!';
+                return;
+            }
+
+            // tutup semua kemungkinan sebelumnya, set current
+            if (currentBoxIndex !== null && !boxes[currentBoxIndex].isAnswered) {
+                // sebenarnya jangan biarkan terjadi, tapi amankan
+            }
+
+            // buka kotak
+            box.isOpened = true;
+            currentBoxIndex = index;
+
+            // update tampilan soal aktif
+            activeQuestionEl.innerText = box.challenge.question;
+            answerInput.value = '';
+            answerInput.focus();
+            motivationMsg.innerText = ''; // hapus pesan lama
+
+            renderBoxes();
+        }
+
+        // Menambah stiker baru ke koleksi
+        function addSticker(emoji) {
+            stickerList.push(emoji);
+            renderStickers();
+        }
+
+        function renderStickers() {
+            stickerCollectionEl.innerHTML = '';
+            stickerList.forEach((sticker, i) => {
+                const stick = document.createElement('div');
+                stick.className = 'sticker-item';
+                stick.innerText = sticker;
+                // efek geming
+                if (i === stickerList.length - 1) {
+                    stick.classList.add('new-shake');
+                }
+                stickerCollectionEl.appendChild(stick);
+            });
+        }
+
+        // Update score
+        function updateScore(inc = 1) {
+            score += inc;
+            scoreDisplayEl.innerText = score;
+        }
+
+        // Jawaban di-submit
+        function handleAnswer() {
+            if (currentBoxIndex === null) {
+                motivationMsg.innerText = '🎁 Pilih dan buka kotak dulu ya!';
+                return;
+            }
+
+            const box = boxes[currentBoxIndex];
+            if (!box.isOpened || box.isAnswered) {
+                motivationMsg.innerText = 'Kotak ini sudah dijawab. Pilih kotak lain!';
+                currentBoxIndex = null;
+                activeQuestionEl.innerText = '🤔 Pilih kotak';
+                renderBoxes();
+                return;
+            }
+
+            const userAnswer = answerInput.value.trim().toLowerCase();
+            if (userAnswer === '') {
+                motivationMsg.innerText = '✏️ Tulis jawaban dulu...';
+                return;
+            }
+
+            const correctAns = box.challenge.answer.toLowerCase();
+            const isCorrect = (userAnswer === correctAns);
+
+            box.isAnswered = true;
+            box.isCorrect = isCorrect;
+
+            if (isCorrect) {
+                const rewardEmoji = box.challenge.reward || '🏅';
+                box.givenReward = rewardEmoji;
+                addSticker(rewardEmoji);   // koleksi stiker
+                updateScore(1);             // poin +1
+                motivationMsg.innerText = '🎉 BENAR! Stiker masuk koleksi!';
+            } else {
+                box.givenReward = null;
+                motivationMsg.innerText = '😬 Try again! next kotak semangat!';
+            }
+
+            // reset current box karena sudah dijawab
+            currentBoxIndex = null;
+            activeQuestionEl.innerText = '🤔 Pilih kotak';
+            answerInput.value = '';
+
+            // cek apakah semua kotak sudah dijawab?
+            const allAnswered = boxes.every(b => b.isAnswered);
+            if (allAnswered) {
+                motivationMsg.innerText = '🎈 SELAMAT! Semua kotak terbuka! Klik "Main Lagi" untuk ulang.';
+            }
+
+            renderBoxes();
+        }
+
+        // inisialisasi / reset game
+        function initGame() {
+            const selectedChallenges = pickRandomChallenges(8);  // 8 kotak
+            boxes = selectedChallenges.map((ch) => ({
+                challenge: ch,
+                isOpened: false,
+                isAnswered: false,
+                isCorrect: false,
+                givenReward: null,
+            }));
+            stickerList = [];
+            score = 0;
+            currentBoxIndex = null;
+            activeQuestionEl.innerText = '🤔 Pilih kotak';
+            answerInput.value = '';
+            motivationMsg.innerText = '';
+
+            updateScore(0); // tampilkan 0
+            renderStickers();
+            renderBoxes();
+        }
+
+        // Event listeners
+        submitBtn.addEventListener('click', handleAnswer);
+        answerInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                handleAnswer();
+            }
+        });
+
+        resetBtn.addEventListener('click', () => {
+            initGame();
+        });
+
+        // jalankan pertama kali
+        initGame();
+
+        // sedikit tambahan: jika user klik kotak lain saat ada kotak terbuka belum dijawab, 
+        // kita arahkan supaya menjawab dulu (logic sudah di openBox dengan pengecekan currentBox)
+        // juga tambahan jika semua sudah dijawab, tidak bisa buka (tapi box isOpened semua)
+    })();
+</script>
+</body>
+</html>

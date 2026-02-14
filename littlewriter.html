@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KeddoLearn</title>
+    <!-- Font ramah anak -->
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(145deg, #b5e6c3, #a1d9f7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .game-container {
+            max-width: 900px;
+            width: 100%;
+            background: #fffdf6;
+            border-radius: 60px;
+            box-shadow: 0 25px 35px rgba(0, 0, 0, 0.2), 0 10px 15px rgba(0, 0, 0, 0.1);
+            padding: 30px 25px 40px;
+            border: 6px solid white;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            color: #2b5e3b;
+            text-shadow: 3px 3px 0 #ffd966;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            background: #ffe88c;
+            display: inline-block;
+            padding: 8px 30px;
+            border-radius: 50px;
+            border: 3px solid white;
+            box-shadow: 0 4px 0 #c4a347;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        /* area gambar dan info */
+        .card-question {
+            background: #fef7e6;
+            border-radius: 70px;
+            padding: 30px 20px;
+            border: 5px solid white;
+            box-shadow: inset 0 -5px 0 #e5d5b5, 0 15px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .image-area {
+            font-size: 8rem;
+            line-height: 1.2;
+            filter: drop-shadow(8px 8px 0 rgba(0,0,0,0.1));
+            margin-bottom: 5px;
+        }
+
+        .hint-text {
+            font-size: 1.4rem;
+            background: #b0d9ff;
+            padding: 8px 20px;
+            border-radius: 40px;
+            display: inline-block;
+            border: 3px solid white;
+            font-weight: 600;
+            color: #1e4e6f;
+        }
+
+        /* area menulis */
+        .writing-area {
+            background: #fcefdc;
+            border-radius: 80px;
+            padding: 30px 25px;
+            border: 5px solid white;
+            box-shadow: inset 0 -5px 0 #ddcdb2, 0 10px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+        }
+
+        .instruction {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #4b3d1e;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            align-items: center;
+        }
+
+        #answer-input {
+            flex: 2 1 250px;
+            padding: 18px 25px;
+            font-size: 1.6rem;
+            border: 4px solid #8fc0a9;
+            border-radius: 60px;
+            outline: none;
+            background: white;
+            text-align: center;
+            font-weight: 600;
+            color: #2f5d3a;
+            transition: 0.2s;
+            box-shadow: 0 4px 0 #58856b;
+        }
+
+        #answer-input:focus {
+            border-color: #f3b33d;
+            box-shadow: 0 4px 0 #b87e1f;
+        }
+
+        .check-btn {
+            flex: 0 1 auto;
+            background: #f3b33d;
+            border: none;
+            padding: 18px 35px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            border-radius: 60px;
+            border: 4px solid white;
+            box-shadow: 0 6px 0 #b87e1f;
+            cursor: pointer;
+            transition: 0.1s linear;
+            color: #2d3e1f;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .check-btn:active {
+            transform: translateY(6px);
+            box-shadow: 0 2px 0 #b87e1f;
+        }
+
+        /* panel feedback */
+        .feedback-panel {
+            background: #ffefb0;
+            border-radius: 50px;
+            padding: 15px 25px;
+            font-size: 1.4rem;
+            border: 4px dashed #e5942e;
+            margin-top: 15px;
+            font-weight: 600;
+            min-height: 85px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .correct-answer-box {
+            background: #98d6a0;
+            padding: 10px 25px;
+            border-radius: 40px;
+            border: 3px solid white;
+            color: #1a4f2b;
+            font-size: 1.6rem;
+            font-weight: 700;
+            display: inline-block;
+        }
+
+        .counter {
+            background: #aad6f0;
+            padding: 8px 30px;
+            border-radius: 50px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            border: 3px solid white;
+            display: inline-block;
+        }
+
+        .next-btn {
+            background: #74c7b8;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            border-radius: 60px;
+            border: 4px solid white;
+            box-shadow: 0 6px 0 #4b8b7a;
+            cursor: pointer;
+            transition: 0.1s linear;
+            color: #1d4e3d;
+            margin-top: 15px;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .next-btn:active {
+            transform: translateY(6px);
+            box-shadow: 0 2px 0 #4b8b7a;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+            background: #feeac2;
+            padding: 15px 25px;
+            border-radius: 60px;
+            border: 4px solid white;
+        }
+
+        .finish-message {
+            background: #f5b342;
+            padding: 20px;
+            border-radius: 60px;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2e471d;
+            border: 5px solid white;
+        }
+
+        /* responsif */
+        @media (max-width: 600px) {
+            h1 { font-size: 2rem; }
+            .image-area { font-size: 6rem; }
+            #answer-input { font-size: 1.2rem; padding: 15px; }
+            .check-btn { padding: 15px 25px; font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="game-container">
+    <h1>🐼🔤 LITTLE WRITER</h1>
+    <div class="subtitle">Inggris · Gambar & Tulisan</div>
+
+    <!-- Kartu Soal (Gambar + Petunjuk) -->
+    <div class="card-question">
+        <div class="image-area" id="image-emoji">🐱</div>
+        <div class="hint-text" id="hint-text">Ini adalah ...</div>
+    </div>
+
+    <!-- Area Menulis -->
+    <div class="writing-area">
+        <div class="instruction">✏️ Tulis nama hewan/benda dalam bahasa Inggris:</div>
+        <div class="input-group">
+            <input type="text" id="answer-input" placeholder="contoh: cat" autocomplete="off">
+            <button class="check-btn" id="check-answer">✅ Cek</button>
+        </div>
+
+        <!-- Panel Feedback (tampil setelah jawab) -->
+        <div class="feedback-panel" id="feedback-panel">
+            <span id="feedback-message">✨ Tulis jawabanmu, lalu klik Cek!</span>
+        </div>
+    </div>
+
+    <!-- Tombol Next dan Statistik -->
+    <div class="stats">
+        <div class="counter" id="progress">1 / 12</div>
+        <button class="next-btn" id="next-question">⏩ Soal Selanjutnya</button>
+    </div>
+    <div style="margin-top: 15px;" id="completion-message"></div>
+</div>
+
+<script>
+    (function() {
+        // ===== DATA SOAL (GAMBAR + KATA INGGRIS + HINT) =====
+        const questions = [
+            { emoji: '🐱', hint: 'Hewan peliharaan yang suka mengeong', en: 'cat' },
+            { emoji: '🐶', hint: 'Hewan yang suka menggonggong', en: 'dog' },
+            { emoji: '🐮', hint: 'Hewan yang menghasilkan susu', en: 'cow' },
+            { emoji: '🐘', hint: 'Hewan besar berbelalai', en: 'elephant' },
+            { emoji: '🦁', hint: 'Raja hutan', en: 'lion' },
+            { emoji: '🐒', hint: 'Hewan yang suka memanjat dan makan pisang', en: 'monkey' },
+            { emoji: '🐔', hint: 'Hewan yang berkokok di pagi hari', en: 'chicken' },
+            { emoji: '🐧', hint: 'Burung yang tidak bisa terbang, tinggal di dingin', en: 'penguin' },
+            { emoji: '🍎', hint: 'Buah merah yang manis', en: 'apple' },
+            { emoji: '🍌', hint: 'Buah kuning panjang', en: 'banana' },
+            { emoji: '🍓', hint: 'Buah kecil merah dengan biji di luar', en: 'strawberry' },
+            { emoji: '🚗', hint: 'Kendaraan roda empat', en: 'car' }
+        ];
+
+        // State global
+        let currentIndex = 0;                 // index soal yang sedang dikerjakan (0-11)
+        let currentAnswered = false;           // apakah soal ini sudah pernah dijawab (untuk cegah next sebelum cek)
+        let currentCorrect = false;            // apakah soal ini sudah dijawab dengan benar
+        let completedCount = 0;                // jumlah soal yang sudah benar (untuk progress)
+        let userAnswer = '';                    // untuk menyimpan input
+        
+        // Elemen DOM
+        const imageEl = document.getElementById('image-emoji');
+        const hintEl = document.getElementById('hint-text');
+        const answerInput = document.getElementById('answer-input');
+        const checkBtn = document.getElementById('check-answer');
+        const nextBtn = document.getElementById('next-question');
+        const feedbackPanel = document.getElementById('feedback-panel');
+        const feedbackMessage = document.getElementById('feedback-message');
+        const progressEl = document.getElementById('progress');
+        const completionMsg = document.getElementById('completion-message');
+
+        // ===== FUNGSI UPDATE TAMPILAN SOAL =====
+        function loadQuestion() {
+            const q = questions[currentIndex];
+            imageEl.innerText = q.emoji;
+            hintEl.innerText = 'Petunjuk: ' + q.hint;
+            
+            // Reset input dan feedback
+            answerInput.value = '';
+            answerInput.disabled = false;
+            answerInput.focus();
+            
+            // Reset status jawaban untuk soal ini (tapi jangan timpa currentCorrect? Kita set ulang agar bisa mencoba lagi)
+            // Namun kita perlu tahu apakah soal ini sudah pernah dijawab benar? Gunakan array terpisah.
+            // Kita simpan di array `correctStatus` per index.
+            if (typeof window.correctStatus === 'undefined') {
+                window.correctStatus = new Array(questions.length).fill(false);
+            }
+            
+            // Jika soal ini sudah benar sebelumnya, tampilkan khusus
+            if (window.correctStatus[currentIndex]) {
+                // Soal sudah benar, tampilkan pesan, disable input?
+                answerInput.disabled = true;
+                answerInput.value = questions[currentIndex].en;
+                feedbackPanel.innerHTML = `<span>✅ Kamu sudah menjawab benar! Silakan lanjut ke soal berikutnya.</span>`;
+                currentCorrect = true;
+                currentAnswered = true; // anggap sudah dijawab benar
+            } else {
+                // Soal belum benar, normal
+                answerInput.disabled = false;
+                feedbackPanel.innerHTML = `<span id="feedback-message">✨ Tulis jawabanmu, lalu klik Cek!</span>`;
+                currentCorrect = false;
+                currentAnswered = false;
+            }
+            
+            // Update progress display
+            updateProgress();
+        }
+
+        // Hitung berapa yang sudah benar
+        function countCompleted() {
+            return window.correctStatus.filter(val => val === true).length;
+        }
+
+        function updateProgress() {
+            const completed = countCompleted();
+            progressEl.innerText = `${completed} / ${questions.length}`;
+            
+            if (completed === questions.length) {
+                completionMsg.innerHTML = '<div class="finish-message">🎉 SELAMAT! Kamu menyelesaikan semua soal! 🎉</div>';
+                nextBtn.disabled = true;
+            } else {
+                completionMsg.innerHTML = '';
+                nextBtn.disabled = false;
+            }
+        }
+
+        // ===== CEK JAWABAN =====
+        function checkAnswer() {
+            const q = questions[currentIndex];
+            const userAnswerRaw = answerInput.value.trim().toLowerCase();
+            
+            // Jika soal sudah benar sebelumnya, langsung kasih tahu
+            if (window.correctStatus[currentIndex]) {
+                feedbackPanel.innerHTML = `<span>✅ Sudah benar sebelumnya! Lanjut ke soal berikutnya.</span>`;
+                return;
+            }
+            
+            // Jika jawaban kosong
+            if (userAnswerRaw === '') {
+                feedbackPanel.innerHTML = `<span>⚠️ Tulis jawaban dulu ya!</span>`;
+                return;
+            }
+            
+            // Bandingkan dengan kunci jawaban
+            if (userAnswerRaw === q.en) {
+                // JAWABAN BENAR
+                window.correctStatus[currentIndex] = true;
+                currentCorrect = true;
+                currentAnswered = true;
+                answerInput.disabled = true; // kunci input
+                
+                // Tampilkan feedback sukses
+                feedbackPanel.innerHTML = `
+                    <span style="color: #1d7845;">✅ Benar sekali! </span>
+                    <span class="correct-answer-box">${q.en}</span>
+                `;
+                
+                updateProgress();
+            } else {
+                // JAWABAN SALAH: tampilkan jawaban benar, tapi anak harus menulis ulang di soal yang sama
+                feedbackPanel.innerHTML = `
+                    <span style="color: #b3412b;">❌ Masih salah. Jawaban yang benar: </span>
+                    <span class="correct-answer-box">${q.en}</span>
+                    <br>
+                    <span style="font-size: 1rem; margin-top: 5px;">✏️ Coba tulis ulang di atas!</span>
+                `;
+                // input tetap aktif, tidak direset (biar anak bisa perbaiki)
+                answerInput.focus();
+                // status correct tetap false, soal belum selesai
+            }
+        }
+
+        // ===== NEXT SOAL =====
+        function goToNext() {
+            // Kalau semua sudah selesai, next tidak jalan
+            if (countCompleted() === questions.length) {
+                return;
+            }
+            
+            // Cari soal berikutnya yang BELUM benar (sistem mengulang sampai ketemu yang belum selesai)
+            let nextIndex = currentIndex;
+            let found = false;
+            for (let i = 0; i < questions.length; i++) {
+                nextIndex = (nextIndex + 1) % questions.length;
+                if (!window.correctStatus[nextIndex]) {
+                    found = true;
+                    break;
+                }
+            }
+            
+            if (found) {
+                currentIndex = nextIndex;
+                loadQuestion();
+            } else {
+                // Semua sudah benar
+                loadQuestion(); // tetap load yang sama tapi nanti di loadQuestion akan disable karena correctStatus true
+            }
+        }
+
+        // ===== INITIAL & EVENT LISTENER =====
+        window.correctStatus = new Array(questions.length).fill(false);
+        
+        // Load soal pertama
+        loadQuestion();
+        
+        // Event listener cek jawaban
+        checkBtn.addEventListener('click', checkAnswer);
+        
+        // Event listener input: jika user tekan Enter, cek jawaban
+        answerInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                checkAnswer();
+            }
+        });
+        
+        // Event listener next button
+        nextBtn.addEventListener('click', goToNext);
+        
+        // Tambahan: jika user sudah selesai semua, next didisable
+    })();
+</script>
+</body>
+</html>
