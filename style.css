@@ -29,25 +29,58 @@ body {
 }
 
 .landing-title {
-    font-size: clamp(2rem, 8vw, 3.5rem);
+    font-size: 22px;
     font-weight: 700;
     color: #2d4059;
-    text-shadow: 3px 3px 0 #fbd26a;
-    margin-bottom: 10px;
+    text-shadow: 2px 2px 0 #fbd26a;
+    margin-bottom: 8px;
     line-height: 1.2;
-    word-break: break-word;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    padding: 0 5px;
 }
 
 .landing-subtitle {
-    font-size: clamp(1rem, 4vw, 1.5rem);
+    font-size: 14px;
     color: #4a3f35;
     background: #ffdd99;
     display: inline-block;
-    padding: 8px 20px;
-    border-radius: 40px;
+    padding: 6px 15px;
+    border-radius: 30px;
     border: 2px solid #cc9c5b;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     max-width: 90%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Untuk layar sangat kecil (320px ke bawah) */
+@media (max-width: 360px) {
+    .landing-title {
+        font-size: 18px;
+        text-shadow: 1.5px 1.5px 0 #fbd26a;
+    }
+    
+    .landing-subtitle {
+        font-size: 12px;
+        padding: 4px 10px;
+        border-width: 1.5px;
+    }
+}
+
+/* Untuk layar terkecil (320px) */
+@media (max-width: 320px) {
+    .landing-title {
+        font-size: 16px;
+    }
+    
+    .landing-subtitle {
+        font-size: 11px;
+        padding: 4px 8px;
+    }
 }
 
 .menu-buttons {
